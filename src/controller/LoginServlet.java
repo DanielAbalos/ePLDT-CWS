@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import model.UserBean;
 
 @WebServlet("/login.html")
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,25 +32,23 @@ public class Login extends HttpServlet {
 		ub.setUsername(request.getParameter("username"));
 		ub.setPassword(request.getParameter("password"));
 		
-		HttpSession session = request.getSession(false);
+		if(validateUser(ub.getUsername(), ub.getPassword())){
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+		
+		}else{
+			request.getRequestDispatcher("loginerror.html").forward(request, response);
+		}
+		
+		/*HttpSession session = request.getSession(false);
 		
 		if(session == null){
 			session = request.getSession();
 			session.setAttribute("user", ub.getUsername());
 			session.setMaxInactiveInterval(24*60*60);
-		
+			
 		}else{
-			request.getRequestDispatcher("home.html").forward(request, response);
-		}
-		
-		System.out.println(session.getAttribute("user"));
-
-		if(validateUser(ub.getUsername(), ub.getPassword())){
-			request.getRequestDispatcher("home.html").forward(request, response);
-		
-		}else{
-			request.getRequestDispatcher("loginerror.html").forward(request, response);
-		}
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+		}*/
 		
 	}
 	
@@ -64,9 +62,7 @@ public class Login extends HttpServlet {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
 
-			while(rs.next()){
-				System.out.println(rs.getString(6));
-				
+			while(rs.next()){				
 				if(rs.getString(6).equals(password)){
 					status = "true";
 				
