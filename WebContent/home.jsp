@@ -81,6 +81,7 @@
 			<th>Project Description</th>
 			<th>Customer Type</th>
 			<th>Opportunity ID</th>
+			<th>Created By</th>
 			<th>Date Created</th>
 			
 			<%
@@ -100,6 +101,7 @@
 				<td><%= rs.getString("project_description") %></td>
 				<td><%= rs.getString("customer_type") %></td>
 				<td><%= rs.getString("opportunityID") %></td>
+				<td><%= rs.getString("created_by") %>
 				<td><%= rs.getString("date") %></td>
 			</tr>
 			

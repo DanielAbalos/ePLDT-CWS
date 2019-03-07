@@ -16,12 +16,12 @@ import javax.servlet.http.HttpSession;
 
 import model.UserBean;
 
-@WebServlet("/login.html")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/loginprocess.html")
+public class LoginProcessServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("errorpage.html");
+		//response.sendRedirect("errorpage.html");
 		doPost(request, response);
 	}
 
@@ -32,19 +32,19 @@ public class LoginServlet extends HttpServlet {
 		ub.setUsername(request.getParameter("username"));
 		ub.setPassword(request.getParameter("password"));
 		
-		
+		String nextPage = "";
 		
 		if(validateUser(ub.getUsername(), ub.getPassword())){
 			HttpSession session = request.getSession();
 			session.setAttribute("user", ub.getUsername());
 			
 			request.setAttribute("session", session.getAttribute("user"));
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			nextPage = "home.jsp";
 		
 		}else{
-			request.getRequestDispatcher("loginerror.html").forward(request, response);
+			nextPage = "loginerror.html";
 		}
-		
+		request.getRequestDispatcher(nextPage).forward(request, response);
 	}
 	
 	private static boolean validateUser(String username, String password){
