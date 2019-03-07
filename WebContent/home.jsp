@@ -23,7 +23,7 @@
 		Date date = new Date();
 	%>
 	
-	<h1 align = "center"><%= request.getAttribute("session") %></h1>
+	<h1 align = "center"> WELCOME BACK, <%= request.getAttribute("session") %></h1>
 	
 	<center><iframe src="https://giphy.com/embed/13k4VSc3ngLPUY" width="480" height="298" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></center>
 	
@@ -53,6 +53,11 @@
 			<tr>
 				<td align = "right">Opportunity ID: </td>
 				<td><input type="text" name="opportunityID" required></td>
+			</tr>
+			
+			<tr>
+				<td align = "right">Created By: </td>
+				<td><input type="text" name="createdBy" value = "<%= request.getAttribute("session") %>" disabled></td>
 			</tr>
 			
 			<tr>

@@ -36,28 +36,32 @@ public class NewWorksheetServlet extends HttpServlet {
 		nwb.setProjectDescription(request.getParameter("projectDescription"));
 		nwb.setCustomerType(request.getParameter("customerType"));
 		nwb.setOpportunityID(request.getParameter("opportunityID"));
+		nwb.setCreatedBy(request.getParameter("createdBy"));
+		
 		nwb.setDate(format.format(date));
 		
 		saveNewWorksheetData(nwb.getCustomerName(), nwb.getProjectDescription(), 
-				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getDate());
+				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getDate());
 		
-		response.sendRedirect("home.jsp");
+		request.getRequestDispatcher("home.jsp").forward(request, response);
 		
 	}
 	
 	private static void saveNewWorksheetData(String customerName, String projectDescription,
-			String customerType, String opportunityID, String date){
+			String customerType, String opportunityID, String createdBy, String date){
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets (customer_name, project_description, customer_type, opportunityID, date)"
+			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets "
+					+ "(customer_name, project_description, customer_type, opportunityID, created_by, date)"
 					+ "VALUES (?,?,?,?,?)");
 			pstmt.setString(1, customerName);
 			pstmt.setString(2, projectDescription);
 			pstmt.setString(3, customerType);
 			pstmt.setString(4, opportunityID);
-			pstmt.setString(5, date);
+			pstmt.setString(5, createdBy);
+			pstmt.setString(6, date);
 			
 			pstmt.execute();
 
