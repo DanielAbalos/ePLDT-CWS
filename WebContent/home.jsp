@@ -17,6 +17,8 @@
 		Date date = new Date();
 	%>
 	
+	<h1 align = "center"><%= request.getAttribute("session") %></h1>
+	
 	<center><iframe src="https://giphy.com/embed/13k4VSc3ngLPUY" width="480" height="298" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></center>
 	
 	<hr width = "40%">
@@ -58,6 +60,8 @@
 		
 		</table>
 	</form>
+	
+	<hr width = "90%">
 	
 </body>
 </html>

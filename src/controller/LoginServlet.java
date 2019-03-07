@@ -32,23 +32,18 @@ public class LoginServlet extends HttpServlet {
 		ub.setUsername(request.getParameter("username"));
 		ub.setPassword(request.getParameter("password"));
 		
+		
+		
 		if(validateUser(ub.getUsername(), ub.getPassword())){
+			HttpSession session = request.getSession();
+			session.setAttribute("user", ub.getUsername());
+			
+			request.setAttribute("session", session.getAttribute("user"));
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 		
 		}else{
 			request.getRequestDispatcher("loginerror.html").forward(request, response);
 		}
-		
-		/*HttpSession session = request.getSession(false);
-		
-		if(session == null){
-			session = request.getSession();
-			session.setAttribute("user", ub.getUsername());
-			session.setMaxInactiveInterval(24*60*60);
-			
-		}else{
-			request.getRequestDispatcher("home.jsp").forward(request, response);
-		}*/
 		
 	}
 	
@@ -60,10 +55,10 @@ public class LoginServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
-
-			while(rs.next()){				
-				if(rs.getString(6).equals(password)){
+			ResultSet rs = stmt.executeQuery("SELECT PASSWORD FROM users WHERE username = '" + username + "'");
+			
+			if(rs.next()){
+				if(rs.getString("password").equals(password)){
 					status = "true";
 				
 				}else{

@@ -49,8 +49,8 @@ public class NewWorksheetServlet extends HttpServlet {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO workshets (customer_name, project_description, customer_type, opportunityID)"
-					+ "VALUES (?,?,?,?)");
+			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets (customer_name, project_description, customer_type, opportunityID, date)"
+					+ "VALUES (?,?,?,?,?)");
 			pstmt.setString(1, customerName);
 			pstmt.setString(2, projectDescription);
 			pstmt.setString(3, customerType);
@@ -60,7 +60,7 @@ public class NewWorksheetServlet extends HttpServlet {
 			pstmt.execute();
 
 		}catch(SQLException sqle){
-			System.out.println("SQL Error in connectToUserDB - Login.java");
+			System.out.println("SQL Error in saveNewWorksheetData - NewWorksheetServlet.java");
 			sqle.printStackTrace();
 		
 		}catch(ClassNotFoundException cnfe){
