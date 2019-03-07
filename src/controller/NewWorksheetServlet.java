@@ -41,6 +41,8 @@ public class NewWorksheetServlet extends HttpServlet {
 		saveNewWorksheetData(nwb.getCustomerName(), nwb.getProjectDescription(), 
 				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getDate());
 		
+		response.sendRedirect("home.jsp");
+		
 	}
 	
 	private static void saveNewWorksheetData(String customerName, String projectDescription,
