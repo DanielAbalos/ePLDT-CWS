@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mysql.jdbc.PreparedStatement;
 
-import model.AddItems;
+import model.AddItemsBean;
 
 @WebServlet("/additems.html")
 public class AddItemsServlet extends HttpServlet {
@@ -24,7 +24,7 @@ public class AddItemsServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AddItems ai = new AddItems();
+		AddItemsBean ai = new AddItemsBean();
 		
 		ai.setPlanName(request.getParameter("planName"));
 		ai.setProductName(request.getParameter("productName"));

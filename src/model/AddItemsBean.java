@@ -1,6 +1,6 @@
 package model;
 
-public class AddItems {
+public class AddItemsBean {
 	
 	String planName;
 	String productName;

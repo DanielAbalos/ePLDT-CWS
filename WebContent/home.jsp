@@ -57,7 +57,7 @@
 			
 			<tr>
 				<td align = "right">Created By: </td>
-				<td><input type="text" name="createdBy" value = "<%= request.getAttribute("session") %>" disabled></td>
+				<td><input type="text" name="createdBy" value = "admin"></td>
 			</tr>
 			
 			<tr>
