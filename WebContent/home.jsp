@@ -36,6 +36,11 @@
 			</tr>
 			
 			<tr>
+				<td align = "right">Worksheet Title: </td>
+				<td><input type="text" name="worksheetTitle" required></td>
+			</tr>
+			
+			<tr>
 				<td align = "right">Customer Name: </td>
 				<td><input type="text" name="customerName" required></td>
 			</tr>
@@ -77,6 +82,7 @@
 	<table align = "center" border = "1" width = "100%">
 		<tr>
 			<th>ID</th>
+			<th>Worksheet Title</th>
 			<th>Customer Name</th>
 			<th>Project Description</th>
 			<th>Customer Type</th>
@@ -97,6 +103,7 @@
 			
 			<tr>
 				<td><%= rs.getString("ID") %></td>
+				<td><%= rs.getString("worksheet_title") %>
 				<td><%= rs.getString("customer_name") %></td>
 				<td><%= rs.getString("project_description") %></td>
 				<td><%= rs.getString("customer_type") %></td>

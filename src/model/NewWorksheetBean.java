@@ -2,6 +2,7 @@ package model;
 
 public class NewWorksheetBean {
 	
+	String worksheetTitle;
 	String customerName;
 	String projectDescription;
 	String date;
@@ -9,6 +10,12 @@ public class NewWorksheetBean {
 	String createdBy;
 	String opportunityID;
 	
+	public String getWorksheetTitle() {
+		return worksheetTitle;
+	}
+	public void setWorksheetTitle(String worksheetTitle) {
+		this.worksheetTitle = worksheetTitle;
+	}
 	public String getCustomerName() {
 		return customerName;
 	}

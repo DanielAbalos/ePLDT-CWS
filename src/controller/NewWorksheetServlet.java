@@ -32,6 +32,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		
 		NewWorksheetBean nwb = new NewWorksheetBean();
 		
+		nwb.setWorksheetTitle(request.getParameter("worksheetTitle"));
 		nwb.setCustomerName(request.getParameter("customerName"));
 		nwb.setProjectDescription(request.getParameter("projectDescription"));
 		nwb.setCustomerType(request.getParameter("customerType"));
@@ -41,32 +42,33 @@ public class NewWorksheetServlet extends HttpServlet {
 		
 		nwb.setDate(format.format(date));
 		
-		saveNewWorksheetData(nwb.getCustomerName(), nwb.getProjectDescription(), 
+		saveNewWorksheetData(nwb.getWorksheetTitle(), nwb.getCustomerName(), nwb.getProjectDescription(), 
 				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getDate());
 		
-		//createNewTableForWorksheet(nwb.getCustomerName(), nwb.getProjectDescription());
+		createNewTableForWorksheet(nwb.getWorksheetTitle());
 		
-		request.setAttribute("tableName", nwb.getCustomerName() + " - " + nwb.getProjectDescription());
+		request.setAttribute("worksheetTitle", nwb.getWorksheetTitle());
 		request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
 		
 	}
 	
-	private static void saveNewWorksheetData(String customerName, String projectDescription,
+	private static void saveNewWorksheetData(String worksheetTitle, String customerName, String projectDescription,
 			String customerType, String opportunityID, String createdBy, String date){
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets "
-					+ "(customer_name, project_description, customer_type, opportunityID, created_by, date)"
+					+ "(worksheet_title, customer_name, project_description, customer_type, opportunityID, created_by, date)"
 					+ "VALUES (?,?,?,?,?,?)");
 			
-			pstmt.setString(1, customerName);
-			pstmt.setString(2, projectDescription);
-			pstmt.setString(3, customerType);
-			pstmt.setString(4, opportunityID);
-			pstmt.setString(5, createdBy);
-			pstmt.setString(6, date);
+			pstmt.setString(1, worksheetTitle);
+			pstmt.setString(2, customerName);
+			pstmt.setString(3, projectDescription);
+			pstmt.setString(4, customerType);
+			pstmt.setString(5, opportunityID);
+			pstmt.setString(6, createdBy);
+			pstmt.setString(7, date);
 			
 			pstmt.execute();
 
@@ -79,12 +81,12 @@ public class NewWorksheetServlet extends HttpServlet {
 		}
 	}
 	
-	/*private static void createNewTableForWorksheet(String customerName, String projectDescription){
+	private static void createNewTableForWorksheet(String worksheetTitle){
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("CREATE TABLE " 
-					+ customerName + projectDescription + 
+					+ worksheetTitle + 
 					" (ID int AUTO_INCREMENT, "
 					+ "PRIMARY KEY(ID), "
 					+ "Plan_name VARCHAR(50), "
@@ -111,6 +113,6 @@ public class NewWorksheetServlet extends HttpServlet {
 		}catch(ClassNotFoundException cnfe){
 			cnfe.printStackTrace();
 		}
-	}*/
+	}
 
 }
