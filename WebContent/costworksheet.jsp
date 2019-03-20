@@ -17,13 +17,13 @@
 		java.sql.Statement"
 	%>
 	
-	<h1 align = "center">Project <%= request.getAttribute("tableName") %></h1>
+	<h1 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h1>
 	
 	<hr width = "80%">
 
-	<form action="costworksheet.html" method = "post">
+	<form action="costworksheet.html" method = "POST">
 	
-		<table width = "60%" border = "1" align = "center">
+		<table width = "60%" align = "center">
 			<tr>
 				<td>Plan Name</td>
 				<td><select name = "planName">
@@ -89,7 +89,7 @@
 	
 	<hr width = 80%>
 	
-	<table width = "150%" border = "1">
+	<table width = "250%">
 		<tr>
 			<th>Plan Name</th>
 			<th>Product Description</th>

@@ -12,11 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.PreparedStatement;
+
 import model.NewWorksheetBean;
 
-@WebServlet("/newworksheetservlet.html")
+@WebServlet("/worksheets.html")
 public class NewWorksheetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +28,13 @@ public class NewWorksheetServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession(false);
+		System.out.println("SESSION-NEWWORKSHEET: " + session);
+		if(session == null){
+			response.sendRedirect("index.html");
+		
+		}
 		
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
@@ -45,10 +54,12 @@ public class NewWorksheetServlet extends HttpServlet {
 		saveNewWorksheetData(nwb.getWorksheetTitle(), nwb.getCustomerName(), nwb.getProjectDescription(), 
 				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getDate());
 		
-		createNewTableForWorksheet(nwb.getWorksheetTitle());
+		//createNewTableForWorksheet(nwb.getWorksheetTitle());
 		
 		request.setAttribute("worksheetTitle", nwb.getWorksheetTitle());
 		request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
+
+		
 		
 	}
 	
@@ -60,7 +71,7 @@ public class NewWorksheetServlet extends HttpServlet {
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets "
 					+ "(worksheet_title, customer_name, project_description, customer_type, opportunityID, created_by, date)"
-					+ "VALUES (?,?,?,?,?,?)");
+					+ "VALUES (?,?,?,?,?,?,?)");
 			
 			pstmt.setString(1, worksheetTitle);
 			pstmt.setString(2, customerName);

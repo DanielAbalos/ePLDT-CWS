@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -24,21 +25,28 @@ public class AddItemsServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AddItemsBean ai = new AddItemsBean();
-		
-		ai.setPlanName(request.getParameter("planName"));
-		ai.setProductName(request.getParameter("productName"));
-		ai.setProductCategory(request.getParameter("productCategory"));
-		ai.setSrp(Double.parseDouble(request.getParameter("srp")));
-		
-		if(insertItemsToDB(ai.getPlanName(), ai.getProductName(), ai.getProductCategory(), ai.getSrp())){
-			request.setAttribute("status", "true");
-			request.getRequestDispatcher("editproducts.jsp").forward(request, response);
-			System.out.println(request.getAttribute("session"));
+		HttpSession session = request.getSession(false);
+		System.out.println("SESSION-PRODUCTS: " + session);
+		if(session == null){
+			response.sendRedirect("index.html");
 		
 		}else{
-			request.setAttribute("status", "false");
-			request.getRequestDispatcher("editproducts.jsp").forward(request, response);
+			AddItemsBean ai = new AddItemsBean();
+			
+			ai.setPlanName(request.getParameter("planName"));
+			ai.setProductName(request.getParameter("productName"));
+			ai.setProductCategory(request.getParameter("productCategory"));
+			ai.setSrp(Double.parseDouble(request.getParameter("srp")));
+			
+			if(insertItemsToDB(ai.getPlanName(), ai.getProductName(), ai.getProductCategory(), ai.getSrp())){
+				request.setAttribute("status", "true");
+				request.getRequestDispatcher("editproducts.jsp").forward(request, response);
+				System.out.println(request.getAttribute("session"));
+			
+			}else{
+				request.setAttribute("status", "false");
+				request.getRequestDispatcher("editproducts.jsp").forward(request, response);
+			}
 		}
 		
 	}

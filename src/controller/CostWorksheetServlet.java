@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -25,47 +26,55 @@ public class CostWorksheetServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		System.out.println("SESSION-COSTWORKSHEET: " + session);
+		if(session == null){
+			response.sendRedirect("index.html");
 		
-		CostWorksheetBean cwb = new CostWorksheetBean();
+		}else{
+			CostWorksheetBean cwb = new CostWorksheetBean();
+			
+			String worksheetTitle = request.getParameter("worksheetTitle");
+			
+			cwb.setPlanName(fetchPlanName(request.getParameter("planName")));
+			cwb.setProductCategory(fetchProductCategory(cwb.getPlanName()));
+			cwb.setProvider(fetchVendor(cwb.getPlanName()));
+			cwb.setQty(Integer.parseInt(request.getParameter("qty")));
+			cwb.setUnitBuyingCosts(fetchUnitBuyingCosts(cwb.getPlanName()));
+			cwb.setPaymentOptions(request.getParameter("paymentOptions"));
+			cwb.setContractPeriod(Integer.parseInt(request.getParameter("contractPeriod")));
+			cwb.setAppliedMargin(15);
+			
+			cwb.setTotalBuyingPrice(computeTotalBuyingPrice(cwb.getQty(), cwb.getUnitBuyingCosts()));
+			cwb.setPeriodAmortized(computeNoOfPeriodAmortized(cwb.getPaymentOptions(), cwb.getContractPeriod()));
+			cwb.setCostOfMoney(computeCostOfMoney(cwb.getPaymentOptions()));
+			cwb.setAmortizedValue(computeAmortizedValue(cwb.getPaymentOptions(), cwb.getTotalBuyingPrice()));
+			cwb.setUnitSellingPrice(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()));
+			cwb.setTotalSellingPrice(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()));
+			
+			/*insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
+					cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
+					cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
+					cwb.getTotalSellingPrice());*/
+			
+			System.out.println(request.getParameter("tableName"));
+			
+			System.out.println("PLAN NAME: " + cwb.getPlanName());
+			System.out.println("PRODUCT CATEGORY: " + cwb.getProductCategory());
+			System.out.println("PROVIDER: " + cwb.getProvider());
+			System.out.println("QUANTITY: " + cwb.getQty());
+			System.out.println("UNIT BUYING COST: " + cwb.getUnitBuyingCosts());
+			System.out.println("PAYMENT OPTIONS: " + cwb.getPaymentOptions());
+			System.out.println("CONTRACTED PERIOD: " + cwb.getContractPeriod());
+			System.out.println("TOTAL BUYING PRICE: " + cwb.getTotalBuyingPrice());
+			System.out.println("PERIOD AMORTIZED: " + cwb.getPeriodAmortized());
+			System.out.println("COST OF MONEY: " + cwb.getCostOfMoney());
+			System.out.println("AMORTIZED VALUE: " + cwb.getAmortizedValue());
+			System.out.println("UNIT SELLING PRICE: " + cwb.getUnitSellingPrice());
+			System.out.println("TOTAL SELLING PRICE: " + cwb.getTotalSellingPrice());
+			
+		}
 		
-		String worksheetTitle = request.getParameter("worksheetTitle");
-		
-		cwb.setPlanName(fetchPlanName(request.getParameter("planName")));
-		cwb.setProductCategory(fetchProductCategory(cwb.getPlanName()));
-		cwb.setProvider(fetchVendor(cwb.getPlanName()));
-		cwb.setQty(Integer.parseInt(request.getParameter("qty")));
-		cwb.setUnitBuyingCosts(fetchUnitBuyingCosts(cwb.getPlanName()));
-		cwb.setPaymentOptions(request.getParameter("paymentOptions"));
-		cwb.setContractPeriod(Integer.parseInt(request.getParameter("contractPeriod")));
-		cwb.setAppliedMargin(15);
-		
-		cwb.setTotalBuyingPrice(computeTotalBuyingPrice(cwb.getQty(), cwb.getUnitBuyingCosts()));
-		cwb.setPeriodAmortized(computeNoOfPeriodAmortized(cwb.getPaymentOptions(), cwb.getContractPeriod()));
-		cwb.setCostOfMoney(computeCostOfMoney(cwb.getPaymentOptions()));
-		cwb.setAmortizedValue(computeAmortizedValue(cwb.getPaymentOptions(), cwb.getTotalBuyingPrice()));
-		cwb.setUnitSellingPrice(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()));
-		cwb.setTotalSellingPrice(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()));
-		
-		/*insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
-				cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
-				cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
-				cwb.getTotalSellingPrice());*/
-		
-		System.out.println(request.getParameter("tableName"));
-		
-		System.out.println("PLAN NAME: " + cwb.getPlanName());
-		System.out.println("PRODUCT CATEGORY: " + cwb.getProductCategory());
-		System.out.println("PROVIDER: " + cwb.getProvider());
-		System.out.println("QUANTITY: " + cwb.getQty());
-		System.out.println("UNIT BUYING COST: " + cwb.getUnitBuyingCosts());
-		System.out.println("PAYMENT OPTIONS: " + cwb.getPaymentOptions());
-		System.out.println("CONTRACTED PERIOD: " + cwb.getContractPeriod());
-		System.out.println("TOTAL BUYING PRICE: " + cwb.getTotalBuyingPrice());
-		System.out.println("PERIOD AMORTIZED: " + cwb.getPeriodAmortized());
-		System.out.println("COST OF MONEY: " + cwb.getCostOfMoney());
-		System.out.println("AMORTIZED VALUE: " + cwb.getAmortizedValue());
-		System.out.println("UNIT SELLING PRICE: " + cwb.getUnitSellingPrice());
-		System.out.println("TOTAL SELLING PRICE: " + cwb.getTotalSellingPrice());
 		
 	}
 	

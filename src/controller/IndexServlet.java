@@ -20,17 +20,15 @@ public class IndexServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		
-		String returnPage = "";
+		System.out.println("SESSION-INDEX: " + session);
+		//response.sendRedirect("login.html");
 		
 		if(session == null){
-			returnPage = "login.html";
-		
+			response.sendRedirect("login.html");
 		}else{
-			returnPage = "home.jsp";
+			response.sendRedirect("loginprocess.html");
 		}
 		
-		response.sendRedirect(returnPage);
 	}
 
 }

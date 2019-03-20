@@ -25,11 +25,15 @@
 	
 	<h1 align = "center"> WELCOME BACK, <%= request.getAttribute("session") %></h1>
 	
+	<form action = "logout.html" method = "POST">
+		<input type = "submit" value = "Logout">
+	</form>
+	
 	<center><iframe src="https://giphy.com/embed/13k4VSc3ngLPUY" width="480" height="298" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></center>
 	
 	<hr width = "40%">
 
-	<form action="newworksheetservlet.html">
+	<form action="worksheets.html" method = "POST">
 		<table align = "center">
 			<tr>
 				<td colspan = "2"><h1>New Project</h1></td>
@@ -62,7 +66,7 @@
 			
 			<tr>
 				<td align = "right">Created By: </td>
-				<td><input type="text" name="createdBy" value = "admin"></td>
+				<td><input type="text" name="createdBy" value = <%= request.getAttribute("session") %>></td>
 			</tr>
 			
 			<tr>
@@ -79,7 +83,7 @@
 	
 	<hr width = "90%">
 	
-	<table align = "center" border = "1" width = "100%">
+	<table align = "center" width = "100%">
 		<tr>
 			<th>ID</th>
 			<th>Worksheet Title</th>

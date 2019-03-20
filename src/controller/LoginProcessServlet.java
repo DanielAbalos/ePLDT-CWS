@@ -26,25 +26,24 @@ public class LoginProcessServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpSession session = request.getSession();
+
 		UserBean ub = new UserBean();
 		
 		ub.setUsername(request.getParameter("username"));
 		ub.setPassword(request.getParameter("password"));
-		
-		String nextPage = "";
-		
+
 		if(validateUser(ub.getUsername(), ub.getPassword())){
-			HttpSession session = request.getSession();
+			
 			session.setAttribute("user", ub.getUsername());
 			
 			request.setAttribute("session", session.getAttribute("user"));
-			nextPage = "home.jsp";
+			request.getRequestDispatcher("home.jsp").forward(request, response);
 		
 		}else{
-			nextPage = "loginerror.html";
+			response.sendRedirect("loginerror.html");
 		}
-		request.getRequestDispatcher(nextPage).forward(request, response);
+		
 	}
 	
 	private static boolean validateUser(String username, String password){
