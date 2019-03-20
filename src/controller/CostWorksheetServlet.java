@@ -306,6 +306,8 @@ public class CostWorksheetServlet extends HttpServlet {
 			pstmt.setDouble(14, totalSellingPrice);
 			
 			pstmt.execute();
+			
+			conn.close();
 
 		}catch(SQLException sqle){
 			System.out.println("SQL Error in saveNewWorksheetData - NewWorksheetServlet.java");

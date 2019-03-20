@@ -25,7 +25,10 @@ public class IndexServlet extends HttpServlet {
 		
 		if(session == null){
 			response.sendRedirect("login.html");
+		
 		}else{
+			session.invalidate();
+			//logging out
 			response.sendRedirect("loginprocess.html");
 		}
 		

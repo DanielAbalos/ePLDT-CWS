@@ -54,7 +54,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		saveNewWorksheetData(nwb.getWorksheetTitle(), nwb.getCustomerName(), nwb.getProjectDescription(), 
 				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getDate());
 		
-		//createNewTableForWorksheet(nwb.getWorksheetTitle());
+		createNewTableForWorksheet(nwb.getWorksheetTitle());
 		
 		request.setAttribute("worksheetTitle", nwb.getWorksheetTitle());
 		request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
@@ -97,7 +97,7 @@ public class NewWorksheetServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("CREATE TABLE " 
-					+ worksheetTitle + 
+					+ "[" + worksheetTitle + "]" + 
 					" (ID int AUTO_INCREMENT, "
 					+ "PRIMARY KEY(ID), "
 					+ "Plan_name VARCHAR(50), "
@@ -116,6 +116,8 @@ public class NewWorksheetServlet extends HttpServlet {
 					+ "Total_selling_price DOUBLE);");
 			
 			pstmt.executeUpdate();
+			
+			conn.close();
 
 		}catch(SQLException sqle){
 			System.out.println("SQL Error in createNewTableForWorksheet - NewWorksheetServlet.java");

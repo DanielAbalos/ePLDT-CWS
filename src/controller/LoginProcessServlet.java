@@ -64,6 +64,8 @@ public class LoginProcessServlet extends HttpServlet {
 					status = "false";
 				}
 			}
+			
+			conn.close();
 
 		}catch(SQLException sqle){
 			System.out.println("SQL Error in connectToUserDB - Login.java");

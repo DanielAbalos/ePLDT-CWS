@@ -67,6 +67,8 @@ public class AddItemsServlet extends HttpServlet {
 			
 			pstmt.execute();
 			
+			conn.close();
+			
 			return true;
 
 		}catch(SQLException sqle){
