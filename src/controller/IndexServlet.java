@@ -29,7 +29,7 @@ public class IndexServlet extends HttpServlet {
 		}else{
 			session.invalidate();
 			//logging out
-			response.sendRedirect("loginprocess.html");
+			response.sendRedirect("login.html");
 		}
 		
 	}

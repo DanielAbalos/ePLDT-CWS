@@ -39,9 +39,12 @@ public class NewWorksheetServlet extends HttpServlet {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		
+		String rawString = request.getParameter("worksheetTitle");
+		String newString = rawString.replace(" ", "_");
+		
 		NewWorksheetBean nwb = new NewWorksheetBean();
 		
-		nwb.setWorksheetTitle(request.getParameter("worksheetTitle"));
+		nwb.setWorksheetTitle(newString);
 		nwb.setCustomerName(request.getParameter("customerName"));
 		nwb.setProjectDescription(request.getParameter("projectDescription"));
 		nwb.setCustomerType(request.getParameter("customerType"));
@@ -65,6 +68,8 @@ public class NewWorksheetServlet extends HttpServlet {
 	
 	private static void saveNewWorksheetData(String worksheetTitle, String customerName, String projectDescription,
 			String customerType, String opportunityID, String createdBy, String date){
+		
+		System.out.println(worksheetTitle);
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -97,8 +102,8 @@ public class NewWorksheetServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("CREATE TABLE " 
-					+ "[" + worksheetTitle + "]" + 
-					" (ID int AUTO_INCREMENT, "
+					+ worksheetTitle 
+					+ " (ID int AUTO_INCREMENT, "
 					+ "PRIMARY KEY(ID), "
 					+ "Plan_name VARCHAR(50), "
 					+ "Product_category VARCHAR(50), "

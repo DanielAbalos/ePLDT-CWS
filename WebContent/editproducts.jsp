@@ -18,7 +18,7 @@
 	<center><iframe src="https://giphy.com/embed/TPl5N4Ci49ZQY" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></center>
 	
 	<form action = "additems.html" method = "POST">
-		<table width = "60%" align = "center">
+		<table width = "70%" align = "center">
 		
 			<tr>
 				<td>Plan Name </td>

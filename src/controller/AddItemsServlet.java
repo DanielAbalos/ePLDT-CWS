@@ -39,13 +39,11 @@ public class AddItemsServlet extends HttpServlet {
 			ai.setSrp(Double.parseDouble(request.getParameter("srp")));
 			
 			if(insertItemsToDB(ai.getPlanName(), ai.getProductName(), ai.getProductCategory(), ai.getSrp())){
-				request.setAttribute("status", "true");
-				request.getRequestDispatcher("editproducts.jsp").forward(request, response);
+				response.sendRedirect("editproducts.jsp");
 				System.out.println(request.getAttribute("session"));
 			
 			}else{
-				request.setAttribute("status", "false");
-				request.getRequestDispatcher("editproducts.jsp").forward(request, response);
+				response.sendRedirect("editproducts.jsp");
 			}
 		}
 		
