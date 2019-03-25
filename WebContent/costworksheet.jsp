@@ -77,7 +77,9 @@
 				<td><input type = "number" name = "contractPeriod" min = "1"></td>
 			</tr>
 			
-			<input type = "hidden" name = "worksheetTitle" value = <%= request.getAttribute("worksheetTitle") %>>
+			<tr>
+				<td><input type = "hidden" name = "worksheetTitle" value = <%= request.getAttribute("worksheetTitle") %>></td>
+			</tr>
 			
 			<tr>
 				<td colspan = "2" align = "center"><input type = "submit" value = "Save"> &nbsp; <input type = "reset" value = "Clear"></td>

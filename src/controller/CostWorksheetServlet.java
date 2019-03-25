@@ -35,6 +35,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			CostWorksheetBean cwb = new CostWorksheetBean();
 			
 			String worksheetTitle = request.getParameter("worksheetTitle");
+			worksheetTitle = worksheetTitle.replace(" ", "");
 			
 			cwb.setPlanName(fetchPlanName(request.getParameter("planName")));
 			cwb.setProductCategory(fetchProductCategory(cwb.getPlanName()));
@@ -52,12 +53,12 @@ public class CostWorksheetServlet extends HttpServlet {
 			cwb.setUnitSellingPrice(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()));
 			cwb.setTotalSellingPrice(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()));
 			
-			/*insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
+			insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
 					cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
 					cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
-					cwb.getTotalSellingPrice());*/
+					cwb.getTotalSellingPrice());
 			
-			System.out.println(request.getParameter("tableName"));
+			System.out.println("TABLE NAME: " + worksheetTitle);
 			
 			System.out.println("PLAN NAME: " + cwb.getPlanName());
 			System.out.println("PRODUCT CATEGORY: " + cwb.getProductCategory());
@@ -92,7 +93,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			return planName;
 
 		}catch(SQLException sqle){
-			System.out.println("SQL Error in connectToUserDB - Login.java");
+			System.out.println("SQL Error in fetchPlanName - CostWorksheetServlet.java");
 			sqle.printStackTrace();
 		
 		}catch(ClassNotFoundException cnfe){
@@ -116,7 +117,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			return productCategory;
 
 		}catch(SQLException sqle){
-			System.out.println("SQL Error in connectToUserDB - Login.java");
+			System.out.println("SQL Error in fetchProductCategory - CostWorksheetServlet.java");
 			sqle.printStackTrace();
 		
 		}catch(ClassNotFoundException cnfe){
@@ -140,7 +141,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			return vendor;
 
 		}catch(SQLException sqle){
-			System.out.println("SQL Error in connectToUserDB - Login.java");
+			System.out.println("SQL Error in fetchVendor - CostWorksheetServlet.java");
 			sqle.printStackTrace();
 		
 		}catch(ClassNotFoundException cnfe){
@@ -164,7 +165,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			return cost;
 
 		}catch(SQLException sqle){
-			System.out.println("SQL Error in connectToUserDB - Login.java");
+			System.out.println("SQL Error in fetchUnitBuyingCosts - CostworksheetServlet.java");
 			sqle.printStackTrace();
 		
 		}catch(ClassNotFoundException cnfe){
@@ -288,7 +289,7 @@ public class CostWorksheetServlet extends HttpServlet {
 					+ "(plan_name, product_category, provider, qty, unit_buying_costs, payment_options, contracted_period, "
 					+ "applied_margin, total_buying_price, period_amortized, cost_of_money, amortized_value, "
 					+ "unit_selling_price, total_selling_price)"
-					+ "VALUES (?,?,?,?,?,?)");
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			
 			pstmt.setString(1, planName);
 			pstmt.setString(2, productCategory);
@@ -310,7 +311,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			conn.close();
 
 		}catch(SQLException sqle){
-			System.out.println("SQL Error in saveNewWorksheetData - NewWorksheetServlet.java");
+			System.out.println("SQL Error in insertToDB - CostWorksheetServlet.java");
 			sqle.printStackTrace();
 		
 		}catch(ClassNotFoundException cnfe){

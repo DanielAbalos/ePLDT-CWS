@@ -39,12 +39,12 @@ public class NewWorksheetServlet extends HttpServlet {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		
-		String rawString = request.getParameter("worksheetTitle");
-		String newString = rawString.replace(" ", "_");
+		String worksheetTitle = request.getParameter("worksheetTitle");
+		worksheetTitle = worksheetTitle.replace(" ", "_");
 		
 		NewWorksheetBean nwb = new NewWorksheetBean();
 		
-		nwb.setWorksheetTitle(newString);
+		nwb.setWorksheetTitle(worksheetTitle);
 		nwb.setCustomerName(request.getParameter("customerName"));
 		nwb.setProjectDescription(request.getParameter("projectDescription"));
 		nwb.setCustomerType(request.getParameter("customerType"));
@@ -57,13 +57,14 @@ public class NewWorksheetServlet extends HttpServlet {
 		saveNewWorksheetData(nwb.getWorksheetTitle(), nwb.getCustomerName(), nwb.getProjectDescription(), 
 				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getDate());
 		
-		createNewTableForWorksheet(nwb.getWorksheetTitle());
+		if(createNewTableForWorksheet(nwb.getWorksheetTitle())){
+			request.setAttribute("worksheetTitle", nwb.getWorksheetTitle());
+			request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
 		
-		request.setAttribute("worksheetTitle", nwb.getWorksheetTitle());
-		request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
+		}else{
+			response.sendRedirect("loginerror.html");
+		}
 
-		
-		
 	}
 	
 	private static void saveNewWorksheetData(String worksheetTitle, String customerName, String projectDescription,
@@ -75,8 +76,9 @@ public class NewWorksheetServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets "
-					+ "(worksheet_title, customer_name, project_description, customer_type, opportunityID, created_by, date)"
-					+ "VALUES (?,?,?,?,?,?,?)");
+					+ "(worksheet_title, customer_name, project_description, "
+					+ "customer_type, opportunityID, created_by, date, status)"
+					+ "VALUES (?,?,?,?,?,?,?,?)");
 			
 			pstmt.setString(1, worksheetTitle);
 			pstmt.setString(2, customerName);
@@ -85,6 +87,7 @@ public class NewWorksheetServlet extends HttpServlet {
 			pstmt.setString(5, opportunityID);
 			pstmt.setString(6, createdBy);
 			pstmt.setString(7, date);
+			pstmt.setString(8, "OK");
 			
 			pstmt.execute();
 
@@ -97,7 +100,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		}
 	}
 	
-	private static void createNewTableForWorksheet(String worksheetTitle){
+	private static boolean createNewTableForWorksheet(String worksheetTitle){
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
@@ -123,13 +126,19 @@ public class NewWorksheetServlet extends HttpServlet {
 			pstmt.executeUpdate();
 			
 			conn.close();
+			
+			return true;
 
 		}catch(SQLException sqle){
 			System.out.println("SQL Error in createNewTableForWorksheet - NewWorksheetServlet.java");
 			sqle.printStackTrace();
+			
+			return false;
 		
 		}catch(ClassNotFoundException cnfe){
 			cnfe.printStackTrace();
+			
+			return false;
 		}
 	}
 
