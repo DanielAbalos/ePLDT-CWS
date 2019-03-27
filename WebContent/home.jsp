@@ -17,6 +17,13 @@
 		java.sql.SQLException,
 		java.sql.Statement"
 	%>
+	
+	<%
+		if(session.getAttribute("session") == null){
+			response.sendRedirect("index.html");
+		}
+	
+	%>
 
 	<%
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -33,7 +40,7 @@
 	
 	<hr width = "40%">
 
-	<form action="worksheets.html" method = "POST">
+	<form action="worksheets.html" autocomplete = "off" method = "POST">
 		<table align = "center">
 			<tr>
 				<td colspan = "2"><h1>New Project</h1></td>
@@ -66,12 +73,12 @@
 			
 			<tr>
 				<td align = "right">Created By: </td>
-				<td><input type="text" name="createdBy" value = <%= request.getAttribute("session") %>></td>
+				<td><input type="text" name="createdBy" value = <%= request.getAttribute("session") %> readonly></td>
 			</tr>
 			
 			<tr>
 				<td align = "right">Date: </td>
-				<td><input type="text" name="customerName" disabled value=<%= format.format(date) %>></td>
+				<td><input type="text" name="customerName" readonly value=<%= format.format(date) %>></td>
 			</tr>
 			
 			<tr>
@@ -93,6 +100,7 @@
 			<th>Opportunity ID</th>
 			<th>Created By</th>
 			<th>Date Created</th>
+			<th>Current Status</th>
 			
 			<%
 	
@@ -114,6 +122,7 @@
 				<td><%= rs.getString("opportunityID") %></td>
 				<td><%= rs.getString("created_by") %>
 				<td><%= rs.getString("date") %></td>
+				<td><%= rs.getString("status") %>
 			</tr>
 			
 			<%

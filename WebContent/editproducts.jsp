@@ -15,6 +15,13 @@
 		java.sql.Statement"
 	%>
 	
+	<%
+		if(session.getAttribute("session") == null){
+			response.sendRedirect("index.html");
+		}
+	
+	%>
+	
 	<center><iframe src="https://giphy.com/embed/TPl5N4Ci49ZQY" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></center>
 	
 	<form action = "additems.html" method = "POST">

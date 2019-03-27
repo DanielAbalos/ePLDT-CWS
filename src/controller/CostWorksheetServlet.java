@@ -58,6 +58,9 @@ public class CostWorksheetServlet extends HttpServlet {
 					cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
 					cwb.getTotalSellingPrice());
 			
+			request.setAttribute("worksheetTitle", worksheetTitle);
+			request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
+			
 			System.out.println("TABLE NAME: " + worksheetTitle);
 			
 			System.out.println("PLAN NAME: " + cwb.getPlanName());
@@ -285,9 +288,9 @@ public class CostWorksheetServlet extends HttpServlet {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO '" + worksheetTitle +"' "
-					+ "(plan_name, product_category, provider, qty, unit_buying_costs, payment_options, contracted_period, "
-					+ "applied_margin, total_buying_price, period_amortized, cost_of_money, amortized_value, "
+			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO " + worksheetTitle
+					+ "(plan_name, product_category, vendor, qty, unit_buying_costs, total_buying_price, clients_payment_options, "
+					+ "contract_period, period_amortized, cost_of_money, amortized_value, applied_margin,"
 					+ "unit_selling_price, total_selling_price)"
 					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			
@@ -296,13 +299,13 @@ public class CostWorksheetServlet extends HttpServlet {
 			pstmt.setString(3, provider);
 			pstmt.setInt(4, qty);
 			pstmt.setDouble(5, unitBuyingCosts);
-			pstmt.setString(6, paymentOptions);
-			pstmt.setInt(7, contractedPeriod);
-			pstmt.setDouble(8, appliedMargin);
-			pstmt.setDouble(9, totalBuyingPrice);
-			pstmt.setDouble(10, periodAmortized);
-			pstmt.setDouble(11, costOfMoney);
-			pstmt.setDouble(12, amortizedValue);
+			pstmt.setDouble(6, totalBuyingPrice);
+			pstmt.setString(7, paymentOptions);
+			pstmt.setInt(8, contractedPeriod);
+			pstmt.setDouble(9, periodAmortized);
+			pstmt.setDouble(10, costOfMoney);
+			pstmt.setDouble(11, amortizedValue);
+			pstmt.setDouble(12, 0.15);
 			pstmt.setDouble(13, unitSellingPrice);
 			pstmt.setDouble(14, totalSellingPrice);
 			

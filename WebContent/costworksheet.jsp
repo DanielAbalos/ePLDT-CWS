@@ -17,11 +17,18 @@
 		java.sql.Statement"
 	%>
 	
+	<%
+		if(session.getAttribute("session") == null){
+			response.sendRedirect("index.html");
+		}
+	
+	%>
+	
 	<h1 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h1>
 	
 	<hr width = "80%">
 
-	<form action="costworksheet.html" method = "POST">
+	<form action="costworksheet.html" method = "POST" autocomplete = "off">
 	
 		<table width = "60%" align = "center">
 			<tr>
@@ -109,6 +116,47 @@
 			<th>Unit Selling Price</th>
 			<th>Total Selling Price</th>
 		</tr>
+		
+		<%
+	
+				try{
+					Class.forName("com.mysql.jdbc.Driver");
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+					Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery("SELECT * FROM " + request.getAttribute("worksheetTitle"));
+			
+					while(rs.next()){
+			%>
+			
+			<tr>
+				<td align = "center"><%= rs.getString("ID") %></td>
+				<td><%= rs.getString("plan_name") %></td>
+				<td><%= rs.getString("product_category") %></td>
+				<td><%= rs.getString("vendor") %></td>
+				<td><%= rs.getString("qty") %></td>
+				<td><%= rs.getString("unit_buying_costs") %></td>
+				<td><%= rs.getString("total_buying_price") %></td>
+				<td><%= rs.getString("clients_payment_options") %></td>
+				<td><%= rs.getString("contract_period") %></td>
+				<td><%= rs.getString("period_amortized") %></td>
+				<td><%= rs.getString("cost_of_money") %></td>
+				<td><%= rs.getString("amortized_value") %></td>
+				<td><%= rs.getString("applied_margin") %></td>
+				<td><%= rs.getString("unit_selling_price") %></td>
+				<td><%= rs.getString("total_selling_price") %></td>				
+			</tr>
+			
+			<%
+					}
+			
+				}catch(SQLException sqle){
+					System.out.println("SQLException in home.jsp");
+					sqle.printStackTrace();
+			
+				}
+	
+			%>
+			
 	</table>
 
 </body>
