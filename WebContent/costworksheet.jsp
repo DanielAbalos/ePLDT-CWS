@@ -17,13 +17,6 @@
 		java.sql.Statement"
 	%>
 	
-	<%
-		if(session.getAttribute("session") == null){
-			response.sendRedirect("index.html");
-		}
-	
-	%>
-	
 	<h1 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h1>
 	
 	<hr width = "80%">

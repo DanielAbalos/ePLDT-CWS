@@ -38,7 +38,7 @@ public class LoginProcessServlet extends HttpServlet {
 			session.setAttribute("user", ub.getUsername());
 			
 			request.setAttribute("session", session.getAttribute("user"));
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			request.getRequestDispatcher("costworksheetlist.jsp").forward(request, response);
 		
 		}else{
 			response.sendRedirect("loginerror.html");

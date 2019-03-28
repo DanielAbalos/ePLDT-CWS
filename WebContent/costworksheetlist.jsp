@@ -17,13 +17,6 @@
 		java.sql.SQLException,
 		java.sql.Statement"
 	%>
-	
-	<%
-		if(session.getAttribute("session") == null){
-			response.sendRedirect("index.html");
-		}
-	
-	%>
 
 	<%
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -90,17 +83,19 @@
 	
 	<hr width = "90%">
 	
-	<table align = "center" width = "100%">
-		<tr>
-			<th>ID</th>
-			<th>Worksheet Title</th>
-			<th>Customer Name</th>
-			<th>Project Description</th>
-			<th>Customer Type</th>
-			<th>Opportunity ID</th>
-			<th>Created By</th>
-			<th>Date Created</th>
-			<th>Current Status</th>
+	<form action = "costworksheet.jsp" method = "POST">
+		<table align = "center" width = "100%">
+			<tr>
+				<th>ID</th>
+				<th>Worksheet Title</th>
+				<th>Customer Name</th>
+				<th>Project Description</th>
+				<th>Customer Type</th>
+				<th>Opportunity ID</th>
+				<th>Created By</th>
+				<th>Date Created</th>
+				<th>Current Status</th>
+			</tr>
 			
 			<%
 	
@@ -114,6 +109,7 @@
 			%>
 			
 			<tr>
+				<td><input type = "submit" value = "Edit"><input type = "hidden" value = <%= rs.getString("worksheet_title") %>></td>
 				<td><%= rs.getString("ID") %></td>
 				<td><%= rs.getString("worksheet_title") %>
 				<td><%= rs.getString("customer_name") %></td>
@@ -136,9 +132,8 @@
 	
 			%>
 	
-	</table>
-	
-	
-	
+		</table>
+	</form>
+		
 </body>
 </html>
