@@ -46,9 +46,10 @@
 			%>
 			
 			<tr>
-				<td><input type = "submit" value = "Edit"></td>
+				<td><input type = "button" value = "Edit" onclick = "getProjectName(<%= rs.getString("worksheet_title")%>)">
+					<input type = "hidden" id = "projectName" onclick = "getProjectName()"></td>
 				<td><%= rs.getString("ID") %></td>
-				<td><input type = text name = "projectName" value = <%= rs.getString("worksheet_title") %> readonly></td>
+				<td><%= rs.getString("worksheet_title") %></td>
 				<td><%= rs.getString("customer_name") %></td>
 				<td><%= rs.getString("project_description") %></td>
 				<td><%= rs.getString("customer_type") %></td>
@@ -60,7 +61,7 @@
 			
 			<%
 					}
-			
+
 				}catch(SQLException sqle){
 					System.out.println("SQLException in home.jsp");
 					sqle.printStackTrace();
@@ -72,6 +73,13 @@
 		</table>
 	
 	</form>
+	
+	<script>
+		function getProjectName(projectName){
+			//projectName = document.getElementById("projectName");
+			alert(projectName);
+		}
+	</script>
 
 </body>
 </html>
