@@ -109,7 +109,6 @@
 			%>
 			
 			<tr>
-				<td><input type = "submit" value = "Edit"><input type = "hidden" value = <%= rs.getString("worksheet_title") %>></td>
 				<td><%= rs.getString("ID") %></td>
 				<td><%= rs.getString("worksheet_title") %>
 				<td><%= rs.getString("customer_name") %></td>

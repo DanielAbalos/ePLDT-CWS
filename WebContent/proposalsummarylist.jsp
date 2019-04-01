@@ -18,10 +18,8 @@
 	%>
 	
 	<form action = "proposalsummary.jsp" method = "POST">
-		
-		<table align = "center" border = "1" size = "70%">
-			
-			<table align = "center" width = "100%">
+	
+		<table align = "center" border = "1" width = "100%">
 			<tr>
 				<th>ID</th>
 				<th>Worksheet Title</th>
@@ -46,8 +44,7 @@
 			%>
 			
 			<tr>
-				<td><input type = "button" value = "Edit" onclick = "getProjectName(<%= rs.getString("worksheet_title")%>)">
-					<input type = "hidden" id = "projectName" onclick = "getProjectName()"></td>
+				<td><input type = "button" value = <%= rs.getString("worksheet_title") %>	>Edit</td>
 				<td><%= rs.getString("ID") %></td>
 				<td><%= rs.getString("worksheet_title") %></td>
 				<td><%= rs.getString("customer_name") %></td>
@@ -71,14 +68,12 @@
 			%>
 			
 		</table>
-	
 	</form>
-	
+		
 	<script>
 		function getProjectName(projectName){
-			//projectName = document.getElementById("projectName");
 			alert(projectName);
-		}
+		};
 	</script>
 
 </body>
