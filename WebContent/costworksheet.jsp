@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
+	<link rel="icon" href="images/e.png">
     <link rel = "stylesheet" href = "css/cws.css"/>
     <title>Cost Worksheet JSP</title>
   </head>
