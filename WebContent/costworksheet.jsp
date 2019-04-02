@@ -105,8 +105,9 @@
 
       <table class="layout display responsive-table">
         <thead>
-        <tr >
-          <th>Plan Name</th>
+        <tr>
+        	<th>ID</th>
+          	<th>Plan Name</th>
   			<th>Product Description</th>
   			<th>Product Category</th>
   			<th>Vendor / Service</th>
@@ -136,24 +137,23 @@
 
     </thead>
     <tbody>
-
-    			<tr>
-    			<td></td>
-    			<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-    			</tr>
+			<tr>
+				<td align = "center"><%= rs.getString("ID") %></td>
+				<td><%= rs.getString("plan_name") %></td>
+				<td><%= rs.getString("product_category") %></td>
+				<td><%= rs.getString("vendor") %></td>
+				<td><%= rs.getString("qty") %></td>
+				<td><%= rs.getString("unit_buying_costs") %></td>
+				<td><%= rs.getString("total_buying_price") %></td>
+				<td><%= rs.getString("clients_payment_options") %></td>
+				<td><%= rs.getString("contract_period") %></td>
+				<td><%= rs.getString("period_amortized") %></td>
+				<td><%= rs.getString("cost_of_money") %></td>
+				<td><%= rs.getString("amortized_value") %></td>
+				<td><%= rs.getString("applied_margin") %></td>
+				<td><%= rs.getString("unit_selling_price") %></td>
+				<td><%= rs.getString("total_selling_price") %></td>				
+			</tr>
 
 
 

@@ -29,7 +29,7 @@
 			</tr>
 			
 			<%
-				String projectName = request.getParameter("projectName");
+				String projectName = request.getParameter("finalProjectName");
 				System.out.println("PROPOSAL SUMMARY: " + projectName);
 	
 				try{
@@ -44,9 +44,9 @@
 			
 			<tr>
 				<td><%= rs.getString("Plan_name") %></td>
-				<td><%= rs.getInt("Qty") %>
-				<td><%= rs.getDouble("Unit_selling_price") %></td>
-				<td><%= rs.getDouble("Total_selling_price") %></td>
+				<td align = "right"><%= rs.getInt("Qty") %>
+				<td align = "right"><%= rs.getDouble("Unit_selling_price") %></td>
+				<td align = "right"><%= rs.getDouble("Total_selling_price") %></td>
 			</tr>
 			
 			<%

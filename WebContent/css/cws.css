@@ -210,14 +210,15 @@ table.display th,
 table.display td{
   border: 1px solid #B3BFAA;
   padding: .5em 1em;
+  height: 20px;
 }
-
 
 table.display th{
   background: #db3232;
 }
 table.display td{
    background: #fff;
+   height: 20px;
  }
 
 table.responsive-table{
