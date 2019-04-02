@@ -111,9 +111,11 @@
     <!--Navigation Bar-->
     <nav id = "nav">
       <ul>
-        <li> <a href ="costworksheetlist.jsp"> ePLDT CWS </a></li>
-        <li> <a href ="proposalsummarylist.jsp"> Proposal Summary </a></li>
-        <li> <a href ="editproducts.jsp"> Product Catalog </a></li>
+        <li> <a href ="costworksheetlist.jsp"><font size="3"> ePLDT CWS </font> </a></li>
+        &nbsp;&nbsp; &nbsp;&nbsp;
+        <li> <a href ="proposalsummarylist.jsp"><font size="3"> Proposal Summary</font> </a></li>
+        &nbsp;&nbsp; &nbsp;&nbsp;
+        <li> <a href ="editproducts.jsp"><font size="3"> Product Catalog</font> </a></li>
       </ul>
     </nav>
     <!--Button for CreateNewWorksheet-->
@@ -133,29 +135,29 @@
         <p>
           <label style="width:120px;">Customer Name:</label>
           <input style="width:150px;" type="text" name="customerName" required>
-
+		  &nbsp;&nbsp; &nbsp;
           <label style="width:120px;">Customer Type:</label>
           <input style="width:150px;" type="text" name="customerType" required>
         </p>
         <p>
           <label style="width:120px;">Project Description:</label>
           <input style="width:150px;" type="text" name="projectDescription" required>
-
+		 &nbsp;&nbsp; &nbsp;
           <label style="width:120px;">Created By:</label>
           <input style="width:150px;" type="text" name="createdBy" value = "<%= request.getAttribute("session") %>" readonly>
         </p>
         <p>
           <label style="width:120px;">Opportunity ID:</label>
           <input style="width:150px;" type="text" name="opportunityID" required>
-
+		 &nbsp;&nbsp; &nbsp;
           <label style="width:120px;">Date:</label>
           <input style="width:150px;" type="text" name="date" readonly value=<%= format.format(date) %>>
         </p>
         <!--Save and Clear Button (Popup)-->
         <br></br>
         <div style="text-align: right;">
-          <input type = "reset" value = "Clear">
-          <input type = "submit" value = "Save">
+          <input type = "reset" value = "Clear" class="clear">
+          <input type = "submit" value = "Save" class="save">
         </div>
     	</div>
     </div>
