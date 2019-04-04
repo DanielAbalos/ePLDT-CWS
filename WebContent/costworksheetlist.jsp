@@ -2,9 +2,9 @@
 <html lang="en" dir="ltr">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="icon" href="images/e.png">
     <link rel = "stylesheet" href = "css/cws.css"/>
     
     <title>ePLDT CWS</title>
@@ -154,7 +154,13 @@
 </body>
 
 	<script>
-	
+  		function getProjectName(projectName){
+    		var finalProjectName = document.getElementById("finalProjectName");
+    		finalProjectName.value = projectName;
+
+    		var form = document.getElementById("sendEditForm");
+    		form.submit();
+  		};
 	</script>
 	
 </html>

@@ -5,9 +5,7 @@ body {
   margin: 0;
   width: 100%;
   min-height: 100vh;
-
 }
-
 /* Cost Worksheet */
 label{
     display: inline-block;
@@ -179,13 +177,26 @@ input{
 }
 hr {
   border: 10;
-  width: 80%;
+  width: 100%;
   margin-top: 45px;
   height: 3px;
   background-color: black;
 }
-  /*Table)*/
+  /*Button*/
+.button{
+  border-radius: 3px;
+  background:rgba(0,0,0,0);
+  border: 3px solid #000;
+  padding: 8px 20px;
+  color: #000;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  width: 100px;
+  height:35px;
 
+}
+  /*Table)*/
 a{
   color: #739931;
   font-size: 15px;
@@ -210,7 +221,10 @@ table.display th,
 table.display td{
   border: 1px solid #B3BFAA;
   padding: .5em 1em;
-  height: 20px;
+}
+
+table tr{
+  height:
 }
 
 table.display th{
@@ -218,7 +232,6 @@ table.display th{
 }
 table.display td{
    background: #fff;
-   height: 20px;
  }
 
 table.responsive-table{
@@ -287,4 +300,5 @@ table.responsive-table{
         border: none;
         background: none;
     }
+
 }
