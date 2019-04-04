@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -10,6 +11,16 @@
     <title></title>
   </head>
   <body style="background-color:whitesmoke;">
+=======
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Products</title>
+</head>
+<body>
+>>>>>>> ea9809504d05ed3ef77f038a8b6655de0392fffc
 
     	<%@ page import = "java.sql.Connection,
     		java.sql.DriverManager,
