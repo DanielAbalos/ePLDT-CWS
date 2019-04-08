@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -11,7 +10,7 @@
     <title></title>
   </head>
   <body style="background-color:whitesmoke;">
-=======
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,7 +19,6 @@
 <title>Products</title>
 </head>
 <body>
->>>>>>> ea9809504d05ed3ef77f038a8b6655de0392fffc
 
     	<%@ page import = "java.sql.Connection,
     		java.sql.DriverManager,
@@ -88,13 +86,13 @@
           <table cellpadding="0" cellspacing="0" border="0">
 
         <tr>
-            <th style="color: white;">Edit</th>
-            <th style="color: white;">Product ID</th>
-            <th style="color: white;">Plan Name</th>
-            <th style="color: white;">Product Name</th>
-            <th style="color: white;">Product Catgory</th>
-            <th style="color: white;">Vendor</th>
-            <th style="color: white;">SRP</th>
+            <th style="color: black;">Edit</th>
+            <th style="color: black;">Product ID</th>
+            <th style="color: black;">Plan Name</th>
+            <th style="color: black;">Product Name</th>
+            <th style="color: black;">Product Catgory</th>
+            <th style="color: black;">Vendor</th>
+            <th style="color: black;">SRP</th>
             </tr>
           </thead>
         </table>
