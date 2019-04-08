@@ -3,6 +3,18 @@
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+<<<<<<< HEAD
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+    <link rel = "stylesheet" href = "css/cws.css"/>
+    <title>Cost Worksheet JSP</title>
+  </head>
+  <body style="background-color:whitesmoke;">
+
+    <%@ page import = "java.text.SimpleDateFormat,
+=======
 	<head>
     	<meta charset="utf-8">
     	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -16,6 +28,7 @@
     <body style="background-color:whitesmoke;">
 
     	<%@ page import = "java.text.SimpleDateFormat,
+>>>>>>> ea9809504d05ed3ef77f038a8b6655de0392fffc
     		java.util.Date,
     		java.sql.Connection,
     		java.sql.DriverManager,
@@ -23,8 +36,12 @@
     		java.sql.SQLException,
     		java.sql.Statement"
     	%>
+<<<<<<< HEAD
+
+=======
 		
 		<br></br>
+>>>>>>> ea9809504d05ed3ef77f038a8b6655de0392fffc
     	<h1 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h1>
     	<hr>
 
@@ -38,6 +55,110 @@
     </nav>
     
     <form action="costworksheet.html" method = "POST" autocomplete = "off">
+<<<<<<< HEAD
+      <!--Button for CreateNewWorksheet-->
+
+      <br></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="#popup1" class="pop button">Create New Product</a>
+      <!--Button for PopUp page-->
+      <div id="popup1" class="overlay">
+        <div class="popup">
+
+  <form action="additems.html" method="POST">
+    <h2>New Project</h2>
+          <a class="close" href="#">&times;</a>
+        <p>
+          <label style="width:120px;">Plan Name:</label>
+          <select name = "planName">
+            <%
+              try{
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `products` ORDER BY plan_name");
+
+                while(rs.next()){
+            %>
+              <option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %></option>
+
+            <%
+                }
+
+              }catch(SQLException sqle){
+                System.out.println("SQLException in costworksheet.jsp");
+                sqle.printStackTrace();
+
+              }
+            %>
+          </select>
+
+        </p>
+          <p>
+            <label style="width:120px;">Quantity:</label>
+            <input style="width:150px;" type="number" name="qty" min="1" required>
+        &nbsp;&nbsp; &nbsp;
+            <label style="width:120px;">Client's Payment Options:</label>
+            <select name = "paymentOptions">
+    					<option value = "OPEX Annual">OPEX - Annual</option>
+    					<option value = "OPEX Semi-annual">OPEX - Semi-annual</option>
+    					<option value = "OPEX QRC">OPEX - QRC</option>
+    					<option value = "OPEX MRC">OPEX - MRC</option>
+    					<option value = "OPEX OTC">OPEX - OTC</option>
+    					<option value = "CAPEX Annual">CAPEX - Annual</option>
+    					<option value = "CAPEX Semi-annual">CAPEX - Semi-annual</option>
+    					<option value = "CAPEX QRC">CAPEX - QRC</option>
+    					<option value = "CAPEX MRC">CAPEX - MRC</option>
+    				</select>
+          </p>
+          <p>
+            <label style="width:120px;">Vendor:</label>
+            <input style="width:150px;" type="number" name="contractPeriod" min="1" required>
+       &nbsp;&nbsp; &nbsp;
+            <input type = "hidden" name = "worksheetTitle" value = <%= request.getAttribute("worksheetTitle") %>>
+          </p>
+          <!--Save and Clear Button (Popup)-->
+          <br></br>
+          <div style="text-align: right;">
+            <input type = "reset" value = "Clear" class="clear">
+            <input type = "submit" value = "Save" class="save">
+          </div>
+        </div>
+      </div>
+
+
+    	</form>
+
+<section>
+      <div class="tbl-header">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+          <tr>
+            <th>Plan Name</th>
+            <th>Product Description</th>
+            <th>Product Category</th>
+            <th>Vendor / Service</th>
+            <th>Quantity</th>
+            <th> Unit Buying / Monthly / Quarterly / Semi-Annual / Annual Costs</th>
+            <th>Total Buying Price</th>
+            <th>Client's Payment Options</th>
+            <th>Contract Period In</th>
+            <th>No.	Of Period Amortized</th>
+            <th>Cost Of Money</th>
+            <th>Amortized Value</th>
+            <th>Applied Margin</th>
+            <th>Unit Selling Price</th>
+            <th>Total Selling Price</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="tbl-content">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        		<%
+
+=======
     	<table width = "60%" align = "center">
     		<tr>
     			<td>Plan Name</td>
@@ -128,6 +249,7 @@
             </tr>
 
 			<%
+>>>>>>> ea9809504d05ed3ef77f038a8b6655de0392fffc
 				try{
 					Class.forName("com.mysql.jdbc.Driver");
 					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
@@ -136,6 +258,47 @@
 
 					while(rs.next()){
 			%>
+<<<<<<< HEAD
+          <tr>
+            <td align = "center"><%= rs.getString("ID") %></td>
+    				<td><%= rs.getString("plan_name") %></td>
+    				<td><%= rs.getString("product_category") %></td>
+    				<td><%= rs.getString("vendor") %></td>
+    				<td><%= rs.getString("qty") %></td>
+    				<td><%= rs.getString("unit_buying_costs") %></td>
+    				<td><%= rs.getString("total_buying_price") %></td>
+    				<td><%= rs.getString("clients_payment_options") %></td>
+    				<td><%= rs.getString("contract_period") %></td>
+    				<td><%= rs.getString("period_amortized") %></td>
+    				<td><%= rs.getString("cost_of_money") %></td>
+    				<td><%= rs.getString("amortized_value") %></td>
+    				<td><%= rs.getString("applied_margin") %></td>
+    				<td><%= rs.getString("unit_selling_price") %></td>
+    				<td><%= rs.getString("total_selling_price") %></td>
+          </tr>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <%
+                }
+
+              }catch(SQLException sqle){
+                System.out.println("SQLException in home.jsp");
+                sqle.printStackTrace();
+
+              }
+            %>
+
+</table>
+
+
+  </body>
+  <script src="cwstable.js"></script>
+=======
 
     	</thead>
     
@@ -171,4 +334,5 @@
 
 	</table>
 </body>
+>>>>>>> ea9809504d05ed3ef77f038a8b6655de0392fffc
 </html>
