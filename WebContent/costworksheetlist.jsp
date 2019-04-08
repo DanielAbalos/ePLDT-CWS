@@ -92,7 +92,7 @@
     <hr>
     
     <div class="page" style="overflow-x:auto;">
-    	<form action = "" method = "POST">
+    	<form action = "editcostworksheet.html" id = "sendEditForm" method = "POST">
     	
     		<table class="layout display responsive-table">
         		<thead>
@@ -123,7 +123,7 @@
     				%>
 
     				<tr>
-    					<td><input type = "button" onclick = "getProjectName('')" value = "edit"></td>
+    					<td><input type = "button" onclick = "getProjectName('<%= rs.getString("worksheet_title") %>')" value = "edit"></td>
     					<td><%= rs.getString("ID") %></td>
     					<td><%= rs.getString("worksheet_title") %></td>
 						<td><%= rs.getString("customer_name") %></td>
@@ -148,6 +148,9 @@
 
 				</tbody>
 			</table>
+			
+			<input type = "hidden" id = "finalProjectName" name = "finalProjectName">
+			
     	</form>	
 	</div>
 

@@ -86,6 +86,8 @@
     		%>
 
   		</table>
+
+  		<input type = "hidden" id = "finalProjectName" name = "finalProjectName">
 	</form>
 
 </body>
