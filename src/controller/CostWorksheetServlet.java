@@ -254,17 +254,17 @@ public class CostWorksheetServlet extends HttpServlet {
 			case "OPEX OTC" : 
 				return totalBuyingPrice;
 			
-			/*case "CAPEX Annual" : 
-				return contractedPeriod / 12;
+			case "CAPEX Annual" : 
+				return totalBuyingPrice;
 			
 			case "CAPEX Semi-annual" : 
-				return contractedPeriod / 6;
+				return totalBuyingPrice * 6;
 			
 			case "CAPEX QRC" : 
-				return contractedPeriod / 3;
+				return totalBuyingPrice * 3;
 			
 			case "CAPEX MRC" :
-				return contractedPeriod * 1;*/
+				return totalBuyingPrice;
 			
 			default:
 				return 0;

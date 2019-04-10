@@ -36,7 +36,7 @@
  	<br></br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    	
-   	<a href="#popup1" class="pop button">Create New Product</a>
+   	<a href="#popup1" class="pop button">Add New Item</a>
    	
 	<!--Button for PopUp page-->
  	<div id="popup1" class="overlay">
@@ -88,9 +88,8 @@
        			</p>
        			
        			<p>
-       				<label style="width:120px;">Vendor:</label>
+       				<label style="width:120px;">Contract Period</label>
         			<input style="width:150px;" type="number" name="contractPeriod" min="1" required>&nbsp;&nbsp; &nbsp;
-        			<input type = "hidden" name = "worksheetTitle" value = <%= request.getAttribute("worksheetTitle") %>>
        			</p>
     			
     			<!--Save and Clear Button (Popup)-->

@@ -64,7 +64,11 @@
 		        	<input style="width:150px;" type="text" name="customerName" required>&nbsp;&nbsp; &nbsp;
 		        
 		        	<label style="width:120px;">Customer Type:</label>
-		        	<input style="width:150px;" type="text" name="customerType" required>
+		        	<select>
+		        		<option>Third Party - Enterprise</option>
+		        		<option>Third Party - Government</option>
+		        		<option>Subsidiary and Affiliates</option>
+		        	</select>
 		     	</p>
 		     
 		     	<p>
