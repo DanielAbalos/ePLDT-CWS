@@ -9,10 +9,10 @@ import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import model.UserBean;
 
@@ -26,8 +26,7 @@ public class LoginProcessServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-
+		
 		UserBean ub = new UserBean();
 		
 		ub.setUsername(request.getParameter("username"));
@@ -35,9 +34,13 @@ public class LoginProcessServlet extends HttpServlet {
 
 		if(validateUser(ub.getUsername(), ub.getPassword())){
 			
-			session.setAttribute("user", ub.getUsername());
+			Cookie userSessionCookie = new Cookie("userSession", ub.getUsername());
+			userSessionCookie.setMaxAge(60 * 60 * 8);
+			response.addCookie(userSessionCookie);
 			
-			request.setAttribute("session", session.getAttribute("user"));
+			System.out.println("LOGIN SESSION: " + request.getCookies());
+			
+			request.setAttribute("session", request.getCookies());
 			request.getRequestDispatcher("costworksheetlist.jsp").forward(request, response);
 		
 		}else{

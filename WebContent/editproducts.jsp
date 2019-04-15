@@ -20,7 +20,6 @@
 	%>
 	
 	<br>
-	<h1 align = "center"> WELCOME BACK, <%= request.getAttribute("session") %></h1>
   
 	<!--Navigation Bar-->
 	<nav id = "nav">
@@ -32,7 +31,9 @@
     </nav>
     
     <!--Button for CreateNewWorksheet-->
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    
+    <br><br>
     
     <a href="#popup1" class="pop button">Add Product</a>
     
@@ -58,10 +59,10 @@
         
         		<p>
          			<label style="width:120px;">Vendor:</label>
-         			<input style="width:150px;" type="text" name="vendor" required>&nbsp;&nbsp; &nbsp;
+         			<input style="width:150px;" type="text" name="vendor" value = "ePLDT" readonly>&nbsp;&nbsp; &nbsp;
           			
           			<label style="width:120px;">SRP:</label>
-          			<input style="width:150px;" type="text" name="srp" value = "<%= request.getAttribute("srp") %>" readonly>
+          			<input style="width:150px;" type="number" name="srp" min = "1">
         		</p>
         
         		<!--Save and Clear Button (Popup)-->

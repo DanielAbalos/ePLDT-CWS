@@ -11,6 +11,22 @@
   	<link rel = "stylesheet" href = "css/cws.css"/>
   	
 	<title>ePLDT CWS</title>
+	
+	<%! String userSession = ""; %>
+	
+	<%
+		if(request.getCookies() == null){
+			response.sendRedirect("index.html");
+		}
+	
+		Cookie userSessionCookies[] = request.getCookies();
+		for(Cookie cookie : userSessionCookies){
+			userSession = cookie.getValue();
+		}
+		
+	
+	%>
+	
 </head>
 
 <body style="background-color:whitesmoke;">
@@ -50,7 +66,7 @@
     <div id="popup1" class="overlay">
 	    <div class="popup">
 		
-			<form action="costworksheet.jsp" method="POST">
+			<form action="worksheets.html" method="POST">
 				<h2>New Project</h2>
 				<a class="close" href="#">&times;</a>
 		    	
@@ -64,7 +80,7 @@
 		        	<input style="width:150px;" type="text" name="customerName" required>&nbsp;&nbsp; &nbsp;
 		        
 		        	<label style="width:120px;">Customer Type:</label>
-		        	<select>
+		        	<select name = "customerType">
 		        		<option>Third Party - Enterprise</option>
 		        		<option>Third Party - Government</option>
 		        		<option>Subsidiary and Affiliates</option>
@@ -76,7 +92,7 @@
 		        	<input style="width:150px;" type="text" name="projectDescription" required>&nbsp;&nbsp; &nbsp;
 		        
 		        	<label style="width:120px;">Created By:</label>
-		        	<input style="width:150px;" type="text" name="createdBy" value = "<%= request.getAttribute("session") %>" readonly>
+		        	<input style="width:150px;" type="text" name="createdBy" value = "<%= userSession %>" readonly>
 		     	</p>
 		     	
 		     	<p>

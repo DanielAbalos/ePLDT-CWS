@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet("/index.html")
 public class IndexServlet extends HttpServlet {
@@ -19,17 +18,13 @@ public class IndexServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		System.out.println("SESSION-INDEX: " + session);
-		//response.sendRedirect("login.html");
+		System.out.println("INDEX SESSION: " + request.getCookies());
 		
-		if(session == null){
+		if(request.getCookies() == null){
 			response.sendRedirect("login.html");
 		
 		}else{
-			session.invalidate();
-			//logging out
-			response.sendRedirect("login.html");
+			response.sendRedirect("costworksheetlist.jsp");
 		}
 		
 	}

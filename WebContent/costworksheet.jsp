@@ -1,3 +1,5 @@
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="org.apache.catalina.connector.Request"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
@@ -12,6 +14,7 @@
 </head>
 
 <body style="background-color:whitesmoke;">
+
 	<%@ page import = "java.text.SimpleDateFormat,
 	    java.util.Date,
 	    java.sql.Connection,
@@ -20,8 +23,6 @@
 	    java.sql.SQLException,
 	    java.sql.Statement"
 	 %>
-	
-	<h1 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h1>
 	
 	<nav id = "nav">
 		<ul>
@@ -35,6 +36,8 @@
  	<!--Button for CreateNewWorksheet-->
  	<br></br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   	
+   	<h1 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h1>
    	
    	<a href="#popup1" class="pop button">Add New Item</a>
    	
@@ -75,6 +78,7 @@
           			
           			<label style="width:120px;">Client's Payment Options:</label>
           			<select name = "paymentOptions">
+          				<option value = "Outright">Outright</option>
             			<option value = "OPEX Annual">OPEX - Annual</option>
 	    				<option value = "OPEX Semi-annual">OPEX - Semi-annual</option>
 	    				<option value = "OPEX QRC">OPEX - QRC</option>
@@ -88,12 +92,14 @@
        			</p>
        			
        			<p>
-       				<label style="width:120px;">Contract Period</label>
+       				<label style="width:120px;">Contract Period(Months)</label>
         			<input style="width:150px;" type="number" name="contractPeriod" min="1" required>&nbsp;&nbsp; &nbsp;
        			</p>
     			
     			<!--Save and Clear Button (Popup)-->
        			<br></br>
+       				
+       			<input type = "hidden" name = "worksheetTitle" value = "<%= request.getAttribute("worksheetTitle") %>">
           		
           		<div style="text-align: right;">
             		<input type = "reset" value = "Clear" class="clear">
@@ -132,14 +138,14 @@
 					try{
 				    	Class.forName("com.mysql.jdbc.Driver");
 				        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-				        Statement stmt = conn.createStatement();
-				        ResultSet rs = stmt.executeQuery("SELECT * FROM " + request.getAttribute("worksheetTitle"));
+				        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM " + request.getAttribute("worksheetTitle"));
+				        ResultSet rs = pstmt.executeQuery();
 				    
 				        while(rs.next()){
 				%>
 		       	 <tr>
-		        	<td align = "center"><%= rs.getString("ID") %></td>
 		    		<td><%= rs.getString("plan_name") %></td>
+		    		<td><!-- PRODUCT DESCRIPTION --></td>
 		    		<td><%= rs.getString("product_category") %></td>
 		    		<td><%= rs.getString("vendor") %></td>
 		    		<td><%= rs.getString("qty") %></td>

@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -25,28 +24,26 @@ public class AddItemsServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		System.out.println("SESSION-PRODUCTS: " + session);
-		if(session == null){
-			response.sendRedirect("index.html");
 		
-		}else{
-			AddItemsBean ai = new AddItemsBean();
-			
-			ai.setPlanName(request.getParameter("planName"));
-			ai.setProductName(request.getParameter("productName"));
-			ai.setProductCategory(request.getParameter("productCategory"));
-			ai.setSrp(Double.parseDouble(request.getParameter("srp")));
-			
-			if(insertItemsToDB(ai.getPlanName(), ai.getProductName(), ai.getProductCategory(), ai.getSrp())){
-				response.sendRedirect("editproducts.jsp");
-				System.out.println(request.getAttribute("session"));
-			
-			}else{
-				response.sendRedirect("editproducts.jsp");
-			}
+		System.out.println("EDITWORKSHEETSERVLET SESSION: " + request.getSession());
+		if(request.getCookies() == null){
+			response.sendRedirect("index.html");
 		}
 		
+		AddItemsBean ai = new AddItemsBean();
+		
+		ai.setPlanName(request.getParameter("planName"));
+		ai.setProductName(request.getParameter("productName"));
+		ai.setProductCategory(request.getParameter("productCategory"));
+		ai.setSrp(Double.parseDouble(request.getParameter("srp")));
+		
+		if(insertItemsToDB(ai.getPlanName(), ai.getProductName(), ai.getProductCategory(), ai.getSrp())){
+			response.sendRedirect("editproducts.jsp");
+			System.out.println(request.getAttribute("session"));
+		
+		}else{
+			response.sendRedirect("editproducts.jsp");
+		}
 	}
 	
 	private static boolean insertItemsToDB(String planName, String productName, String productCategory,

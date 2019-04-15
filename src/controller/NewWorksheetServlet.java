@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -29,11 +28,9 @@ public class NewWorksheetServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession(false);
-		System.out.println("SESSION-NEWWORKSHEET: " + session);
-		if(session == null){
+		System.out.println("NEWWORKSHEETSERVLET SESSION: " + request.getSession());
+		if(request.getCookies() == null){
 			response.sendRedirect("index.html");
-		
 		}
 		
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -53,6 +50,8 @@ public class NewWorksheetServlet extends HttpServlet {
 		System.out.println(nwb.getCreatedBy());
 		
 		nwb.setDate(format.format(date));
+		
+		System.out.println();
 		
 		saveNewWorksheetData(nwb.getWorksheetTitle(), nwb.getCustomerName(), nwb.getProjectDescription(), 
 				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getDate());
@@ -87,7 +86,7 @@ public class NewWorksheetServlet extends HttpServlet {
 			pstmt.setString(5, opportunityID);
 			pstmt.setString(6, createdBy);
 			pstmt.setString(7, date);
-			pstmt.setString(8, "OK");
+			pstmt.setString(8, "Okay");
 			
 			pstmt.execute();
 

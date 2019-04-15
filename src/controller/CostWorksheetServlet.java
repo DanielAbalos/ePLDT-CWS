@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -26,58 +25,60 @@ public class CostWorksheetServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		System.out.println("SESSION-COSTWORKSHEET: " + session);
-		if(session == null){
-			response.sendRedirect("index.html");
 		
-		}else{
-			CostWorksheetBean cwb = new CostWorksheetBean();
-			
-			String worksheetTitle = request.getParameter("worksheetTitle");
-			worksheetTitle = worksheetTitle.replace(" ", "");
-			
-			cwb.setPlanName(fetchPlanName(request.getParameter("planName")));
-			cwb.setProductCategory(fetchProductCategory(cwb.getPlanName()));
-			cwb.setProvider(fetchVendor(cwb.getPlanName()));
-			cwb.setQty(Integer.parseInt(request.getParameter("qty")));
-			cwb.setUnitBuyingCosts(fetchUnitBuyingCosts(cwb.getPlanName()));
-			cwb.setPaymentOptions(request.getParameter("paymentOptions"));
-			cwb.setContractPeriod(Integer.parseInt(request.getParameter("contractPeriod")));
-			cwb.setAppliedMargin(15);
-			
-			cwb.setTotalBuyingPrice(computeTotalBuyingPrice(cwb.getQty(), cwb.getUnitBuyingCosts()));
-			cwb.setPeriodAmortized(computeNoOfPeriodAmortized(cwb.getPaymentOptions(), cwb.getContractPeriod()));
-			cwb.setCostOfMoney(computeCostOfMoney(cwb.getPaymentOptions()));
-			cwb.setAmortizedValue(computeAmortizedValue(cwb.getPaymentOptions(), cwb.getTotalBuyingPrice()));
-			cwb.setUnitSellingPrice(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()));
-			cwb.setTotalSellingPrice(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()));
-			
-			insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
-					cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
-					cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
-					cwb.getTotalSellingPrice());
-			
-			request.setAttribute("worksheetTitle", worksheetTitle);
-			request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
-			
-			System.out.println("TABLE NAME: " + worksheetTitle);
-			
-			System.out.println("PLAN NAME: " + cwb.getPlanName());
-			System.out.println("PRODUCT CATEGORY: " + cwb.getProductCategory());
-			System.out.println("PROVIDER: " + cwb.getProvider());
-			System.out.println("QUANTITY: " + cwb.getQty());
-			System.out.println("UNIT BUYING COST: " + cwb.getUnitBuyingCosts());
-			System.out.println("PAYMENT OPTIONS: " + cwb.getPaymentOptions());
-			System.out.println("CONTRACTED PERIOD: " + cwb.getContractPeriod());
-			System.out.println("TOTAL BUYING PRICE: " + cwb.getTotalBuyingPrice());
-			System.out.println("PERIOD AMORTIZED: " + cwb.getPeriodAmortized());
-			System.out.println("COST OF MONEY: " + cwb.getCostOfMoney());
-			System.out.println("AMORTIZED VALUE: " + cwb.getAmortizedValue());
-			System.out.println("UNIT SELLING PRICE: " + cwb.getUnitSellingPrice());
-			System.out.println("TOTAL SELLING PRICE: " + cwb.getTotalSellingPrice());
-			
+		System.out.println("COSTWORKSHEETSERVLET SESSION: " + request.getSession());
+		if(request.getCookies() == null){
+			response.sendRedirect("index.html");
 		}
+		
+		CostWorksheetBean cwb = new CostWorksheetBean();
+		
+		String worksheetTitle = request.getParameter("worksheetTitle");
+		//worksheetTitle = worksheetTitle.replace(" ", "");
+		
+		cwb.setPlanName(fetchPlanName(request.getParameter("planName")));
+		cwb.setProductCategory(fetchProductCategory(cwb.getPlanName()));
+		cwb.setProvider(fetchVendor(cwb.getPlanName()));
+		cwb.setQty(Integer.parseInt(request.getParameter("qty")));
+		cwb.setUnitBuyingCosts(fetchUnitBuyingCosts(cwb.getPlanName()));
+		cwb.setPaymentOptions(request.getParameter("paymentOptions"));
+		cwb.setContractPeriod(Integer.parseInt(request.getParameter("contractPeriod")));
+		cwb.setAppliedMargin(15);
+		
+		cwb.setTotalBuyingPrice(computeTotalBuyingPrice(cwb.getQty(), cwb.getUnitBuyingCosts()));
+		cwb.setPeriodAmortized(computeNoOfPeriodAmortized(cwb.getPaymentOptions(), cwb.getContractPeriod()));
+		cwb.setCostOfMoney(computeCostOfMoney(cwb.getPaymentOptions()));
+		cwb.setAmortizedValue(computeAmortizedValue(cwb.getPaymentOptions(), cwb.getTotalBuyingPrice()));
+		cwb.setUnitSellingPrice(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()));
+		cwb.setTotalSellingPrice(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()));
+		
+		request.setAttribute("worksheetTitle", worksheetTitle);
+		request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
+		
+		//-------------------- COMPUTE TOTAL CONTRACT VALUES --------------------
+		double recurringTCV = recurring_TCV(cwb.getPaymentOptions(), cwb.getTotalSellingPrice(), cwb.getContractPeriod(), cwb.getPeriodAmortized());
+		
+		insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
+				cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
+				cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
+				cwb.getTotalSellingPrice(), recurringTCV);
+		
+		System.out.println("TABLE NAME: " + worksheetTitle);
+		
+		System.out.println("PLAN NAME: " + cwb.getPlanName());
+		System.out.println("PRODUCT CATEGORY: " + cwb.getProductCategory());
+		System.out.println("PROVIDER: " + cwb.getProvider());
+		System.out.println("QUANTITY: " + cwb.getQty());
+		System.out.println("UNIT BUYING COST: " + cwb.getUnitBuyingCosts());
+		System.out.println("PAYMENT OPTIONS: " + cwb.getPaymentOptions());
+		System.out.println("CONTRACTED PERIOD: " + cwb.getContractPeriod());
+		System.out.println("TOTAL BUYING PRICE: " + cwb.getTotalBuyingPrice());
+		System.out.println("PERIOD AMORTIZED: " + cwb.getPeriodAmortized());
+		System.out.println("COST OF MONEY: " + cwb.getCostOfMoney());
+		System.out.println("AMORTIZED VALUE: " + cwb.getAmortizedValue());
+		System.out.println("UNIT SELLING PRICE: " + cwb.getUnitSellingPrice());
+		System.out.println("TOTAL SELLING PRICE: " + cwb.getTotalSellingPrice());
+		System.out.println("RECURRING TCV: " + recurringTCV);
 		
 		
 	}
@@ -185,6 +186,9 @@ public class CostWorksheetServlet extends HttpServlet {
 	private static double computeNoOfPeriodAmortized(String paymentOptions, int contractedPeriod){
 		
 		switch(paymentOptions){
+			case "Outright" :
+				return 1;
+				
 			case "OPEX Annual" :
 				return contractedPeriod / 1;
 				
@@ -239,6 +243,9 @@ public class CostWorksheetServlet extends HttpServlet {
 	
 	private static double computeAmortizedValue(String paymentOptions, double totalBuyingPrice){
 		switch(paymentOptions){
+			case "Outright" :
+				return totalBuyingPrice;
+				
 			case "OPEX Annual" :
 				return totalBuyingPrice;
 			
@@ -283,7 +290,7 @@ public class CostWorksheetServlet extends HttpServlet {
 	private static void insertToDB(String worksheetTitle, String planName, String productCategory, String provider, int qty, 
 			double unitBuyingCosts, String paymentOptions, int contractedPeriod, double appliedMargin,
 			double totalBuyingPrice, double periodAmortized, double costOfMoney, double amortizedValue,
-			double unitSellingPrice, double totalSellingPrice){
+			double unitSellingPrice, double totalSellingPrice, double recurringTCV){
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -291,8 +298,8 @@ public class CostWorksheetServlet extends HttpServlet {
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO " + worksheetTitle
 					+ "(plan_name, product_category, vendor, qty, unit_buying_costs, total_buying_price, clients_payment_options, "
 					+ "contract_period, period_amortized, cost_of_money, amortized_value, applied_margin,"
-					+ "unit_selling_price, total_selling_price)"
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "unit_selling_price, total_selling_price, recurring_tcv)"
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			
 			pstmt.setString(1, planName);
 			pstmt.setString(2, productCategory);
@@ -308,6 +315,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			pstmt.setDouble(12, 0.15);
 			pstmt.setDouble(13, unitSellingPrice);
 			pstmt.setDouble(14, totalSellingPrice);
+			pstmt.setDouble(15, recurringTCV);
 			
 			pstmt.execute();
 			
@@ -321,5 +329,21 @@ public class CostWorksheetServlet extends HttpServlet {
 			cnfe.printStackTrace();
 		}
 		
+	}
+	
+	public double recurring_TCV(String paymentOptions, double totalSellingPrice, int contractPeriod, double periodAmortized){
+		switch(paymentOptions){
+			case "OPEX Semi-annual" :
+				return totalSellingPrice * (contractPeriod / 6);
+			
+			case "OPEX QRC" :
+				return totalSellingPrice * (contractPeriod / 3);
+			
+			case "OPEX Annual" :
+				return totalSellingPrice * (contractPeriod / 12);
+			
+			default :
+				return totalSellingPrice * periodAmortized;
+		}
 	}
 }
