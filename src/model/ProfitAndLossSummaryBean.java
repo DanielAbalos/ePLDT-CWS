@@ -2,16 +2,16 @@ package model;
 
 public class ProfitAndLossSummaryBean {
 	
-	double revenues;
-	double TCVrecurring;
-	double TCVnonRecurring;
-	double recurring;
-	double nonRecurring;
+	double revenues = 0.00;
+	double TCVrecurring = 0.00;
+	double TCVnonRecurring = 0.00;
+	double recurring = 0.00;
+	double nonRecurring = 0.00;
 	
-	double costOfManagedITservices;
-	double costOfDataCenter;
-	double costOfCloud;
-	double costOfCyberSecurity;
+	double costOfManagedITservices = 0.00;
+	double costOfDataCenter = 0.00;
+	double costOfCloud = 0.00;
+	double costOfCyberSecurity = 0.00;
 	
 	public double getRevenues() {
 		return revenues;

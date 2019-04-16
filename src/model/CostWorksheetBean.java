@@ -6,17 +6,17 @@ public class CostWorksheetBean {
 	String productCategory;
 	String provider;
 	int qty;
-	double unitBuyingCosts;
-	double totalBuyingPrice;
+	double unitBuyingCosts = 0.00;
+	double totalBuyingPrice = 0.00;
 	String paymentOptions;
 	int contractPeriod;
-	double periodAmortized;
-	double costOfMoney;
-	double amortizedValue;
-	double appliedMargin;
-	double unitSellingPrice;
-	double totalSellingPrice;
-	double TCV_recurring;
+	double periodAmortized = 0.00;
+	double costOfMoney = 0.00;
+	double amortizedValue = 0.00;
+	double appliedMargin = 0.00;
+	double unitSellingPrice = 0.00;
+	double totalSellingPrice = 0.00;
+	double TCV_recurring = 0.00;
 	
 	public double getTCV_recurring() {
 		return TCV_recurring;

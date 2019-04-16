@@ -33,7 +33,7 @@ public class ProfitAndLossComputations {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(total_selling_price) FROM " + worksheetTitle 
-					+ " WHERE Clients_payment_options != 'Outright' OR Clients_payment_options != 'OPEX-OTC'");
+					+ " WHERE Clients_payment_options != 'Outright' AND Clients_payment_options != 'OPEX-OTC'");
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()){
@@ -83,7 +83,7 @@ public class ProfitAndLossComputations {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(TCVRecurring) FROM " + worksheetTitle 
-					+ " WHERE Clients_payment_options != 'Outright' OR Clients_payment_options != 'OPEX-OTC'");
+					+ " WHERE Clients_payment_options != 'Outright' AND Clients_payment_options != 'OPEX-OTC'");
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()){

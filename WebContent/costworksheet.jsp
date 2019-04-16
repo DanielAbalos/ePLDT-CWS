@@ -163,69 +163,151 @@
 	<!--Button for PopUp page-->
  	<div id="popup1" class="overlay">
     	<div class="popup">
-			
-			<form action="additems.html" method="POST">
-				<h2>New Project</h2>
-    			<a class="close" href="#">&times;</a>
-    		
-    			<p>
-			   		<label style="width:120px;">Plan Name:</label>
-			        <select name = "planName">
-					<%
-						try{
-					    	Class.forName("com.mysql.jdbc.Driver");
-					        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-					        Statement stmt = conn.createStatement();
-					        ResultSet rs = stmt.executeQuery("SELECT * FROM `products` ORDER BY plan_name");
-					        
-					        while(rs.next()){
-					%>
-					       <option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %></option>
-					<%
-					     }
-					    }catch(SQLException sqle){
-					     System.out.println("SQLException in costworksheet.jsp");
-					     sqle.printStackTrace();
-					    }
-					%>
-       				</select>
-       			</p>
-       
-       			<p>
-          			<label style="width:120px;">Quantity:</label>
-          			<input style="width:150px;" type="number" name="qty" min="1" required>&nbsp;&nbsp; &nbsp;
-          			
-          			<label style="width:120px;">Client's Payment Options:</label>
-          			<select name = "paymentOptions">
-          				<option value = "Outright">Outright</option>
-            			<option value = "OPEX-Annual">OPEX - Annual</option>
-	    				<option value = "OPEX-Semi-annual">OPEX - Semi-annual</option>
-	    				<option value = "OPEX-QRC">OPEX - QRC</option>
-	    				<option value = "OPEX-MRC">OPEX - MRC</option>
-	    				<option value = "OPEX-OTC">OPEX - OTC</option>
-	    				<option value = "CAPEX-Annual">CAPEX - Annual</option>
-	    				<option value = "CAPEX-Semi-annual">CAPEX - Semi-annual</option>
-	    				<option value = "CAPEX-QRC">CAPEX - QRC</option>
-	    				<option value = "CAPEX-MRC">CAPEX - MRC</option>
-    				</select>
-       			</p>
-       			
-       			<p>
-       				<label style="width:120px;">Contract Period(Months)</label>
-        			<input style="width:150px;" type="number" name="contractPeriod" min="1" required>&nbsp;&nbsp; &nbsp;
-       			</p>
+			<h2>New Project</h2>
+    		<a class="close" href="#">&times;</a>
     			
-    			<!--Save and Clear Button (Popup)-->
-       			<br></br>
+    		<p>
+    			<label>Product Category: </label>
+    			<select name = "productCategory"  id = "productCategory" onchange = "filterPlanName()">
+    				<option value = "Managed IT Services">Managed IT Services</option>
+    				<option value = "Data Center">Data Center</option>
+    				<option value = "Cloud">Cloud</option>
+    				<option value = "Cyber Security">Cyber Security</option>
+    			</select>    			
+    		</p>
+    		
+    		<p id = "managedITservices">
+			   	<label style="width:120px;">Plan Name:</label>
+				<select name = "planName">
+				<%
+					try{
+				    	Class.forName("com.mysql.jdbc.Driver");
+						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+					    Statement stmt = conn.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Managed IT Services' ORDER BY plan_name");
+					        
+						while(rs.next()){
+				%>
+					<option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %> - <%= rs.getDouble("srp") %></option>
+				<%
+						}
+					}catch(SQLException sqle){
+					    System.out.println("SQLException in costworksheet.jsp");
+						sqle.printStackTrace();
+					}
+				%>
+       			</select>
+       		</p>
+       		
+       		<p id = "dataCenter">
+			   	<label style="width:120px;">Plan Name:</label>
+				<select name = "planName">
+				<%
+					try{
+				    	Class.forName("com.mysql.jdbc.Driver");
+						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+					    Statement stmt = conn.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Data Center' ORDER BY plan_name");
+					        
+						while(rs.next()){
+				%>
+					<option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %> - <%= rs.getDouble("srp") %></option>
+				<%
+						}
+					}catch(SQLException sqle){
+					    System.out.println("SQLException in costworksheet.jsp");
+						sqle.printStackTrace();
+					}
+				%>
+       			</select>
+       		</p>
+       		
+       		<p id = "cloud">
+			   	<label style="width:120px;">Plan Name:</label>
+				<select name = "planName">
+				<%
+					try{
+				    	Class.forName("com.mysql.jdbc.Driver");
+						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+					    Statement stmt = conn.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Cloud' ORDER BY plan_name");
+					        
+						while(rs.next()){
+				%>
+					<option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %> - <%= rs.getDouble("srp") %></option>
+				<%
+						}
+					}catch(SQLException sqle){
+					    System.out.println("SQLException in costworksheet.jsp");
+						sqle.printStackTrace();
+					}
+				%>
+       			</select>
+       		</p>
+       		
+       		<p id = "cyberSec">
+			   	<label style="width:120px;">Plan Name:</label>
+				<select name = "planName">
+				<%
+					try{
+				    	Class.forName("com.mysql.jdbc.Driver");
+						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+					    Statement stmt = conn.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Cyber Security' ORDER BY plan_name");
+					        
+						while(rs.next()){
+				%>
+					<option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %> - <%= rs.getDouble("srp") %></option>
+				<%
+						}
+					}catch(SQLException sqle){
+					    System.out.println("SQLException in costworksheet.jsp");
+						sqle.printStackTrace();
+					}
+				%>
+       			</select>
+       		</p>
+       		
+       		<p>
+       			<label>Price: </label>
+       			<input type = "number" name = "price" min = 1>
+       		</p>
+       
+       		<p>
+          		<label style="width:120px;">Quantity:</label>
+          		<input style="width:150px;" type="number" name="qty" min="1" required>&nbsp;&nbsp; &nbsp;
+          			
+          		<label style="width:120px;">Client's Payment Options:</label>
+          		<select name = "paymentOptions">
+          			<option value = "Outright">Outright</option>
+            		<option value = "OPEX-Annual">OPEX - Annual</option>
+	    			<option value = "OPEX-Semi-annual">OPEX - Semi-annual</option>
+	    			<option value = "OPEX-QRC">OPEX - QRC</option>
+	    			<option value = "OPEX-MRC">OPEX - MRC</option>
+	    			<option value = "OPEX-OTC">OPEX - OTC</option>
+	    			<option value = "CAPEX-Annual">CAPEX - Annual</option>
+	    			<option value = "CAPEX-Semi-annual">CAPEX - Semi-annual</option>
+	    			<option value = "CAPEX-QRC">CAPEX - QRC</option>
+	    			<option value = "CAPEX-MRC">CAPEX - MRC</option>
+    			</select>
+       		</p>
+       			
+       		<p>
+       			<label style="width:120px;">Contract Period(Months)</label>
+        		<input style="width:150px;" type="number" name="contractPeriod" min="1" required>&nbsp;&nbsp; &nbsp;
+       		</p>
+    			
+    		<!--Save and Clear Button (Popup)-->
+       		<br></br>
        				
-       			<input type = "hidden" name = "worksheetTitle" value = "<%= request.getAttribute("worksheetTitle") %>">
+       		<input type = "hidden" name = "worksheetTitle" value = "<%= request.getAttribute("worksheetTitle") %>">
           		
-          		<div style="text-align: right;">
-            		<input type = "reset" value = "Clear" class="clear">
-            		<input type = "submit" value = "Save" class="save">
-          		</div>
-        	</div>
-		</div>
+          	<div style="text-align: right;">
+            	<input type = "reset" value = "Clear" class="clear">
+            	<input type = "submit" value = "Save" class="save">
+          	</div>
+        </div>
+	</div>
 	</form>
 
   	<section>
@@ -290,6 +372,45 @@
 		</table>
 	</section>
 </body>
+
+<script>	
+	document.getElementById("dataCenter").style.display = "none";
+	document.getElementById("cloud").style.display = "none";
+	document.getElementById("cyberSec").style.display = "none";
+	
+	function filterPlanName(){
+		if(document.getElementById("productCategory").value == "Managed IT Services"){
+			document.getElementById("managedITservices").style.display = "block";
+			
+			document.getElementById("dataCenter").style.display = "none";
+			document.getElementById("cloud").style.display = "none";
+			document.getElementById("cyberSec").style.display = "none";
+		
+		}else if(document.getElementById("productCategory").value == "Data Center"){
+			document.getElementById("dataCenter").style.display = "block";
+			
+			document.getElementById("managedITservices").style.display = "none";
+			document.getElementById("cloud").style.display = "none";
+			document.getElementById("cyberSec").style.display = "none";
+		
+		}else if(document.getElementById("productCategory").value == "Cloud"){
+			document.getElementById("cloud").style.display = "block";
+			
+			document.getElementById("managedITservices").style.display = "none";
+			document.getElementById("dataCenter").style.display = "none";
+			document.getElementById("cyberSec").style.display = "none";
+			
+		}else if(document.getElementById("productCategory").value == "Cyber Security"){
+			document.getElementById("cyberSec").style.display = "block";
+			
+			document.getElementById("managedITservices").style.display = "none";
+			document.getElementById("dataCenter").style.display = "none";
+			document.getElementById("cloud").style.display = "none";
+		}
+	}
+
+	
+</script>
 
 <script src="cwstable.js"></script>
 </html>

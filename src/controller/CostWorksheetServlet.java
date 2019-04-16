@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import Utility.ProfitAndLossComputations;
 
 import java.sql.PreparedStatement;
+import java.text.DecimalFormat;
 
 import model.CostWorksheetBean;
 import model.ProfitAndLossSummaryBean;
@@ -34,6 +36,9 @@ public class CostWorksheetServlet extends HttpServlet {
 			response.sendRedirect("index.html");
 		}
 		
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.CEILING);
+		
 		CostWorksheetBean cwb = new CostWorksheetBean();
 		ProfitAndLossSummaryBean pnlb = new ProfitAndLossSummaryBean();
 		
@@ -45,40 +50,37 @@ public class CostWorksheetServlet extends HttpServlet {
 		cwb.setProductCategory(fetchProductCategory(cwb.getPlanName()));
 		cwb.setProvider(fetchVendor(cwb.getPlanName()));
 		cwb.setQty(Integer.parseInt(request.getParameter("qty")));
-		cwb.setUnitBuyingCosts(fetchUnitBuyingCosts(cwb.getPlanName()));
+		cwb.setUnitBuyingCosts(Double.parseDouble(df.format(Double.parseDouble(request.getParameter("price")))));
 		cwb.setPaymentOptions(request.getParameter("paymentOptions"));
 		cwb.setContractPeriod(Integer.parseInt(request.getParameter("contractPeriod")));
 		cwb.setAppliedMargin(15);
 		
-		cwb.setTotalBuyingPrice(computeTotalBuyingPrice(cwb.getQty(), cwb.getUnitBuyingCosts()));
-		cwb.setPeriodAmortized(computeNoOfPeriodAmortized(cwb.getPaymentOptions(), cwb.getContractPeriod()));
-		cwb.setCostOfMoney(computeCostOfMoney(cwb.getPaymentOptions()));
-		cwb.setAmortizedValue(computeAmortizedValue(cwb.getPaymentOptions(), cwb.getTotalBuyingPrice()));
-		cwb.setUnitSellingPrice(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()));
-		cwb.setTotalSellingPrice(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()));
-		cwb.setTCV_recurring(recurring_TCV(cwb.getPaymentOptions(), cwb.getTotalSellingPrice(), cwb.getContractPeriod(), cwb.getPeriodAmortized()));
-		
-		//-------------------- COMPUTE TOTAL CONTRACT VALUES --------------------
-		ProfitAndLossComputations pnl = new ProfitAndLossComputations();
-		pnl.displayPNL(worksheetTitle);
-		
-		pnlb.setRevenues(pnl.computeRevenues(worksheetTitle));
-		pnlb.setRecurring(pnl.computeRecurring(worksheetTitle));
-		pnlb.setNonRecurring(pnl.computeNonRecurring(worksheetTitle));
-		pnlb.setTCVrecurring(pnl.TCVRecurring(worksheetTitle));
-		pnlb.setTCVnonRecurring(pnl.computeNonRecurring(worksheetTitle));
-		pnlb.setCostOfManagedITservices(pnl.computeManagedITServicesCost(worksheetTitle));
-		pnlb.setCostOfDataCenter(pnl.computeDataCenterCost(worksheetTitle));
-		pnlb.setCostOfCloud(pnl.computeCloudCost(worksheetTitle));
-		pnlb.setCostOfCyberSecurity(pnl.computeCyberSecCost(worksheetTitle));
-		
-		
+		cwb.setTotalBuyingPrice(Double.parseDouble(df.format(computeTotalBuyingPrice(cwb.getQty(), cwb.getUnitBuyingCosts()))));
+		cwb.setPeriodAmortized(Double.parseDouble(df.format(computeNoOfPeriodAmortized(cwb.getPaymentOptions(), cwb.getContractPeriod()))));
+		cwb.setCostOfMoney(Double.parseDouble(df.format(computeCostOfMoney(cwb.getPaymentOptions()))));
+		cwb.setAmortizedValue(Double.parseDouble(df.format(computeAmortizedValue(cwb.getPaymentOptions(), cwb.getTotalBuyingPrice()))));
+		cwb.setUnitSellingPrice(Double.parseDouble(df.format(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()))));
+		cwb.setTotalSellingPrice(Double.parseDouble(df.format(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()))));
+		cwb.setTCV_recurring(Double.parseDouble(df.format(recurring_TCV(cwb.getPaymentOptions(), cwb.getTotalSellingPrice(), cwb.getContractPeriod(), cwb.getPeriodAmortized()))));
+
 		insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
 				cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
 				cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
 				cwb.getTotalSellingPrice(), cwb.getTCV_recurring());
 		
-		System.out.println("TABLE NAME: " + worksheetTitle);
+		//-------------------- COMPUTE TOTAL CONTRACT VALUES --------------------
+		ProfitAndLossComputations pnl = new ProfitAndLossComputations();
+		pnl.displayPNL(worksheetTitle);
+		
+		pnlb.setRevenues(Double.parseDouble(df.format(pnl.computeRevenues(worksheetTitle))));
+		pnlb.setRecurring(Double.parseDouble(df.format(pnl.computeRecurring(worksheetTitle))));
+		pnlb.setNonRecurring(Double.parseDouble(df.format(pnl.computeNonRecurring(worksheetTitle))));
+		pnlb.setTCVrecurring(Double.parseDouble(df.format(pnl.TCVRecurring(worksheetTitle))));
+		pnlb.setTCVnonRecurring(Double.parseDouble(df.format(pnl.computeNonRecurring(worksheetTitle))));
+		pnlb.setCostOfManagedITservices(Double.parseDouble(df.format(pnl.computeManagedITServicesCost(worksheetTitle))));
+		pnlb.setCostOfDataCenter(Double.parseDouble(df.format(pnl.computeDataCenterCost(worksheetTitle))));
+		pnlb.setCostOfCloud(Double.parseDouble(df.format(pnl.computeCloudCost(worksheetTitle))));
+		pnlb.setCostOfCyberSecurity(Double.parseDouble(df.format(pnl.computeCyberSecCost(worksheetTitle))));
 		
 		/*System.out.println("PLAN NAME: " + cwb.getPlanName());
 		System.out.println("PRODUCT CATEGORY: " + cwb.getProductCategory());
@@ -172,7 +174,7 @@ public class CostWorksheetServlet extends HttpServlet {
 		return vendor;
 	}
 	
-	private static double fetchUnitBuyingCosts(String planName){
+	/*private static double fetchUnitBuyingCosts(String planName){
 		double cost = 0.0;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -194,7 +196,7 @@ public class CostWorksheetServlet extends HttpServlet {
 		}
 		
 		return cost;
-	}
+	}*/
 	
 	private static double computeTotalBuyingPrice(int qty, double totalBuyingCosts){
 		return qty * totalBuyingCosts;
