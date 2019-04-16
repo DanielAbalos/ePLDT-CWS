@@ -16,7 +16,14 @@ public class CostWorksheetBean {
 	double appliedMargin;
 	double unitSellingPrice;
 	double totalSellingPrice;
+	double TCV_recurring;
 	
+	public double getTCV_recurring() {
+		return TCV_recurring;
+	}
+	public void setTCV_recurring(double tCV_recurring) {
+		TCV_recurring = tCV_recurring;
+	}
 	public String getPlanName() {
 		return planName;
 	}

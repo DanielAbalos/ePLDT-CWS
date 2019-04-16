@@ -18,7 +18,7 @@ public class EditWorksheetServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("EDITWORKSHEETSERVLET SESSION: " + request.getSession());
+		System.out.println("EDITWORKSHEETSERVLET SESSION: " + request.getCookies());
 		if(request.getCookies() == null){
 			response.sendRedirect("index.html");
 		}

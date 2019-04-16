@@ -120,7 +120,8 @@ public class NewWorksheetServlet extends HttpServlet {
 					+ "Amortized_value DOUBLE, "
 					+ "Applied_margin DOUBLE, "
 					+ "Unit_selling_price DOUBLE, "
-					+ "Total_selling_price DOUBLE);");
+					+ "Total_selling_price DOUBLE,"
+					+ "TCVRecurring DOUBLE);");
 			
 			pstmt.executeUpdate();
 			

@@ -37,7 +37,126 @@
  	<br></br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    	
-   	<h1 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h1>
+   	<h2 align = "center">Project <%= request.getAttribute("worksheetTitle") %></h2>
+   	
+   	<section>
+   		<table>
+   		<%
+			try{
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM `worksheets` WHERE worksheet_title = '" + request.getAttribute("worksheetTitle") + "'");
+					        
+				while(rs.next()){
+		%>
+   			<tr>
+   				<td>Customer Name</td>
+   				<td><%= rs.getString("customer_name") %></td>
+   			</tr>
+   			
+   			<tr>
+   				<td>Customer Type</td>
+   				<td><%= rs.getString("customer_type") %><input type = "hidden" name = "customerType" value = "<%= rs.getString("customer_type") %>"></td>
+   			</tr>
+   			
+   			<tr>
+   				<td>Project Description</td>
+   				<td><%= rs.getString("project_description") %></td>
+   			</tr>
+   			
+   			<tr>
+   				<td>Opportunity ID</td>
+   				<td><%= rs.getString("opportunityID") %></td>
+   			</tr>
+   			
+   		<%
+				}
+			}catch(SQLException sqle){
+				System.out.println("SQLException in costworksheet.jsp");
+				sqle.printStackTrace();
+			}
+		%>
+   			
+   		</table>
+   	</section>
+   	
+   	<hr>
+   	<br>
+   	
+   	<h3 align = "center">Profit And Loss Summary</h3>
+   	
+   	<section>
+   		<table>
+   			<tr>
+   				<th></th>
+   				<th>AMOUNT (VAT-EX)</th>
+   				<th>QTY / PERCENTAGE</th>
+   				<th>TOTAL CONTRACT VALUE(VAT-EX)</th>
+   			</tr>
+   			
+   			<tr>
+   				<th>REVENUES</th>
+   				<td></td>
+   				<td></td>
+   				<td>${ pnlComp.revenues }</td>
+   			</tr>
+   			
+   			<tr>
+   				<th>Recurring</th>
+   				<td>${pnlComp.recurring }</td>
+   				<td>...</td>
+   				<td>${pnlComp.TCVrecurring }</td>
+   			</tr>
+   			
+   			<tr>
+   				<th>Non-recurring</th>
+   				<td>${pnlComp.nonRecurring }</td>
+   				<td>...</td>
+   				<td>${pnlComp.TCVnonRecurring }</td>
+   			</tr>
+   			
+   			<tr>
+   				<th>Cost of Sale</th>
+   				<td>...</td>
+   				<td>...</td>
+   				<td>...</td>
+   			</tr>
+   			
+   			<tr>
+   				<th>Managed IT Services</th>
+   				<td>${pnlComp.costOfManagedITservices }</td>
+   				<td>...</td>
+   				<td>...</td>
+   			</tr>
+   			
+   			<tr>
+   				<th>Data Center</th>
+   				<td>${pnlComp.costOfDataCenter }</td>
+   				<td>...</td>
+   				<td>...</td>
+   			</tr>
+   			
+   			<tr>
+   				<th>Cloud</th>
+   				<td>${pnlComp.costOfCloud }</td>
+   				<td>...</td>
+   				<td>...</td>
+   			</tr>
+   			
+   			<tr>
+   				<th>Cyber Security</th>
+   				<td>${pnlComp.costOfCyberSecurity }</td>
+   				<td>...</td>
+   				<td>...</td>
+   			</tr>
+   		
+   		</table>
+   	</section>
+   	
+   	<hr>
+   	
+   	<br><br>
    	
    	<a href="#popup1" class="pop button">Add New Item</a>
    	
@@ -79,15 +198,15 @@
           			<label style="width:120px;">Client's Payment Options:</label>
           			<select name = "paymentOptions">
           				<option value = "Outright">Outright</option>
-            			<option value = "OPEX Annual">OPEX - Annual</option>
-	    				<option value = "OPEX Semi-annual">OPEX - Semi-annual</option>
-	    				<option value = "OPEX QRC">OPEX - QRC</option>
-	    				<option value = "OPEX MRC">OPEX - MRC</option>
-	    				<option value = "OPEX OTC">OPEX - OTC</option>
-	    				<option value = "CAPEX Annual">CAPEX - Annual</option>
-	    				<option value = "CAPEX Semi-annual">CAPEX - Semi-annual</option>
-	    				<option value = "CAPEX QRC">CAPEX - QRC</option>
-	    				<option value = "CAPEX MRC">CAPEX - MRC</option>
+            			<option value = "OPEX-Annual">OPEX - Annual</option>
+	    				<option value = "OPEX-Semi-annual">OPEX - Semi-annual</option>
+	    				<option value = "OPEX-QRC">OPEX - QRC</option>
+	    				<option value = "OPEX-MRC">OPEX - MRC</option>
+	    				<option value = "OPEX-OTC">OPEX - OTC</option>
+	    				<option value = "CAPEX-Annual">CAPEX - Annual</option>
+	    				<option value = "CAPEX-Semi-annual">CAPEX - Semi-annual</option>
+	    				<option value = "CAPEX-QRC">CAPEX - QRC</option>
+	    				<option value = "CAPEX-MRC">CAPEX - MRC</option>
     				</select>
        			</p>
        			
@@ -108,8 +227,6 @@
         	</div>
 		</div>
 	</form>
-	
-	<hr>
 
   	<section>
         <table cellpadding="0" cellspacing="0" border="0">
