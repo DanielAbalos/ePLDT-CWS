@@ -12,19 +12,30 @@
   	
 	<title>ePLDT CWS</title>
 	
-	<%! String userSession = ""; %>
+	<%! String userSession = ""; 
+		String[] authLevel;
+	%>
 	
 	<%
+		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
 		if(request.getCookies() == null){
 			response.sendRedirect("index.html");
 		}
-	
+		
+		int i = 0;
 		Cookie userSessionCookies[] = request.getCookies();
 		for(Cookie cookie : userSessionCookies){
+			System.out.println("INDEX COOKIE NAME: " + userSessionCookies[i].getName());
+			System.out.println("INDEX COOKIE VALUE: " + userSessionCookies[i].getValue());
 			userSession = cookie.getValue();
+			i++;
 		}
 		
-	
+		System.out.println(userSession);
+		authLevel = userSession.split(",");
+		
+		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
+		
 	%>
 	
 </head>
@@ -44,7 +55,7 @@
 	    Date date = new Date();
 	%>
 	
-	<h1 align = "center"> WELCOME BACK, <%= request.getAttribute("session") %></h1>
+	<h1 align = "center"> WELCOME BACK, <%= authLevel[0] %></h1>
 	
     <!--Navigation Bar-->
     <br>
@@ -89,10 +100,15 @@
 		     
 		     	<p>
 		        	<label style="width:120px;">Project Description:</label>
-		        	<input style="width:150px;" type="text" name="projectDescription" required>&nbsp;&nbsp; &nbsp;
+		        	<textarea rows = 5 cols = 50 name = "projectDescription"></textarea>
 		        
 		        	<label style="width:120px;">Created By:</label>
-		        	<input style="width:150px;" type="text" name="createdBy" value = "<%= userSession %>" readonly>
+		        	<input style="width:150px;" type="text" name="createdBy" value = "<%= authLevel[0] %>" readonly>
+		     	</p>
+		     	
+		     	<p>		        
+		        	<label style="width:120px;">Type:</label>
+		        	<input style="width:150px;" type="text" name="type" value = "<%= authLevel[1] %>" readonly>
 		     	</p>
 		     	
 		     	<p>
@@ -125,9 +141,9 @@
             			<th>ID</th>
             			<th>Worksheet Title</th>
             			<th>Customer Name</th>
-            			<th>Project Description</th>
             			<th>Customer Type</th>
             			<th>Opportunity ID</th>
+            			<th>Type</th>
             			<th>Created By</th>
             			<th>Date Created</th>
             			<th>Current Status</th>
@@ -141,7 +157,7 @@
     						Class.forName("com.mysql.jdbc.Driver");
     						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
     						Statement stmt = conn.createStatement();
-    						ResultSet rs = stmt.executeQuery("SELECT * FROM `worksheets`");
+    						ResultSet rs = stmt.executeQuery("SELECT * FROM `worksheets` WHERE type = '" + authLevel[1] + "'");
 
     						while(rs.next()){
     				%>
@@ -151,9 +167,9 @@
     					<td><%= rs.getString("ID") %></td>
     					<td><%= rs.getString("worksheet_title") %></td>
 						<td><%= rs.getString("customer_name") %></td>
-						<td><%= rs.getString("project_description") %></td>
 						<td><%= rs.getString("customer_type") %></td>
 						<td><%= rs.getString("opportunityID") %></td>
+						<td><%= rs.getString("type") %></td>
 						<td><%= rs.getString("created_by") %>
 						<td><%= rs.getString("date") %></td>
 						<td><%= rs.getString("status") %></td>

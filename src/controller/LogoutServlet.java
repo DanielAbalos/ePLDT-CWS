@@ -19,13 +19,23 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("------------------------- LOGOUT -------------------------");
+		
 		Cookie userSessionCookie = new Cookie("userSession", "");
 		userSessionCookie.setMaxAge(0);
 		response.addCookie(userSessionCookie);
 		
-		System.out.println("LOGOUT SESSION: " + request.getCookies());
+		Cookie[] cookies = request.getCookies();
+		int i = 0;
+		for (Cookie cookie : cookies ) {
+			System.out.println("INDEX COOKIE NAME: " + cookies[i].getName());
+			System.out.println("INDEX COOKIE VALUE: " + cookies[i].getValue());
+			i++;
+		}
 		
 		response.sendRedirect("index.html");
+		
+		System.out.println("------------------------- LOGOUT -------------------------");
 	}
 
 }

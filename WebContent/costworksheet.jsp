@@ -23,6 +23,33 @@
 	    java.sql.SQLException,
 	    java.sql.Statement"
 	 %>
+	 
+	 <%! String userSession = ""; 
+		String[] authLevel;
+	%>
+	
+	<%
+		System.out.println("------------------------- COST WORKSHEET --------------------");
+		
+		if(request.getCookies() == null){
+			response.sendRedirect("index.html");
+		}
+		
+		int i = 0;
+		Cookie userSessionCookies[] = request.getCookies();
+		for(Cookie cookie : userSessionCookies){
+			System.out.println("INDEX COOKIE NAME: " + userSessionCookies[i].getName());
+			System.out.println("INDEX COOKIE VALUE: " + userSessionCookies[i].getValue());
+			userSession = cookie.getValue();
+			i++;
+		}
+		
+		System.out.println(userSession);
+		authLevel = userSession.split(",");
+		
+		System.out.println("------------------------- COST WORKSHEET --------------------");
+		
+	%>
 	
 	<nav id = "nav">
 		<ul>
@@ -166,7 +193,7 @@
 			<h2>New Project</h2>
     		<a class="close" href="#">&times;</a>
     			
-    		<p>
+    		<!-- <p>
     			<label>Product Category: </label>
     			<select name = "productCategory"  id = "productCategory" onchange = "filterPlanName()">
     				<option value = "Managed IT Services">Managed IT Services</option>
@@ -174,9 +201,9 @@
     				<option value = "Cloud">Cloud</option>
     				<option value = "Cyber Security">Cyber Security</option>
     			</select>    			
-    		</p>
+    		</p> -->
     		
-    		<p id = "managedITservices">
+    		<p>
 			   	<label style="width:120px;">Plan Name:</label>
 				<select name = "planName">
 				<%
@@ -184,76 +211,7 @@
 				    	Class.forName("com.mysql.jdbc.Driver");
 						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 					    Statement stmt = conn.createStatement();
-						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Managed IT Services' ORDER BY plan_name");
-					        
-						while(rs.next()){
-				%>
-					<option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %> - <%= rs.getDouble("srp") %></option>
-				<%
-						}
-					}catch(SQLException sqle){
-					    System.out.println("SQLException in costworksheet.jsp");
-						sqle.printStackTrace();
-					}
-				%>
-       			</select>
-       		</p>
-       		
-       		<p id = "dataCenter">
-			   	<label style="width:120px;">Plan Name:</label>
-				<select name = "planName">
-				<%
-					try{
-				    	Class.forName("com.mysql.jdbc.Driver");
-						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-					    Statement stmt = conn.createStatement();
-						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Data Center' ORDER BY plan_name");
-					        
-						while(rs.next()){
-				%>
-					<option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %> - <%= rs.getDouble("srp") %></option>
-				<%
-						}
-					}catch(SQLException sqle){
-					    System.out.println("SQLException in costworksheet.jsp");
-						sqle.printStackTrace();
-					}
-				%>
-       			</select>
-       		</p>
-       		
-       		<p id = "cloud">
-			   	<label style="width:120px;">Plan Name:</label>
-				<select name = "planName">
-				<%
-					try{
-				    	Class.forName("com.mysql.jdbc.Driver");
-						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-					    Statement stmt = conn.createStatement();
-						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Cloud' ORDER BY plan_name");
-					        
-						while(rs.next()){
-				%>
-					<option value =<%=rs.getInt("ID")%>><%=rs.getString("plan_name") %> - <%= rs.getDouble("srp") %></option>
-				<%
-						}
-					}catch(SQLException sqle){
-					    System.out.println("SQLException in costworksheet.jsp");
-						sqle.printStackTrace();
-					}
-				%>
-       			</select>
-       		</p>
-       		
-       		<p id = "cyberSec">
-			   	<label style="width:120px;">Plan Name:</label>
-				<select name = "planName">
-				<%
-					try{
-				    	Class.forName("com.mysql.jdbc.Driver");
-						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-					    Statement stmt = conn.createStatement();
-						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = 'Cyber Security' ORDER BY plan_name");
+						ResultSet rs = stmt.executeQuery("SELECT * FROM `products` WHERE product_category = '" + authLevel[1] + "' ORDER BY plan_name");
 					        
 						while(rs.next()){
 				%>

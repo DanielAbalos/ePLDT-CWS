@@ -3,9 +3,9 @@ package controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,27 +26,40 @@ public class LoginProcessServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("------------------------- LOGIN PROCESS SERVLET -------------------------");
 		
 		UserBean ub = new UserBean();
 		
 		ub.setUsername(request.getParameter("username"));
 		ub.setPassword(request.getParameter("password"));
+		ub.setAuthLevel(getAuthLevel(ub.getUsername()));
+		
+		System.out.println(ub.getUsername());
+		System.out.println(ub.getPassword());
+		System.out.println(ub.getAuthLevel());
 
 		if(validateUser(ub.getUsername(), ub.getPassword())){
 			
-			Cookie userSessionCookie = new Cookie("userSession", ub.getUsername());
+			Cookie userSessionCookie = new Cookie("userSession", ub.getUsername() + "," + ub.getAuthLevel());
 			userSessionCookie.setMaxAge(60 * 60 * 8);
 			response.addCookie(userSessionCookie);
 			
-			System.out.println("LOGIN SESSION: " + request.getCookies());
+			Cookie[] cookies = request.getCookies();
+			int i = 0;
+			for (Cookie cookie : cookies ) {
+				System.out.println("INDEX COOKIE NAME: " + cookies[i].getName());
+				System.out.println("INDEX COOKIE VALUE: " + cookies[i].getValue());
+				i++;
+			}
 			
-			request.setAttribute("session", request.getCookies());
-			request.getRequestDispatcher("costworksheetlist.jsp").forward(request, response);
+			System.out.println("------------------------- LOGIN PROCESS SERVLET -------------------------");
+
+			response.sendRedirect("costworksheetlist.jsp");
 		
 		}else{
 			response.sendRedirect("loginerror.html");
 		}
-		
+
 	}
 	
 	private static boolean validateUser(String username, String password){
@@ -56,8 +69,8 @@ public class LoginProcessServlet extends HttpServlet {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT PASSWORD FROM users WHERE username = '" + username + "'");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT PASSWORD FROM users WHERE username = '" + username + "'");
+			ResultSet rs = pstmt.executeQuery();
 			
 			if(rs.next()){
 				if(rs.getString("password").equals(password)){
@@ -84,5 +97,30 @@ public class LoginProcessServlet extends HttpServlet {
 			return false;
 		}
 
+	}
+	
+	public String getAuthLevel(String username){
+		String authLevel = "";
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT authorization_level FROM users WHERE username = '" + username + "'");
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				authLevel = rs.getString("authorization_level");
+			}
+			
+		
+		}catch(SQLException sqle){
+			System.out.println("SQL Error in getAuthLevel - Login.java");
+			sqle.printStackTrace();
+		
+		}catch(ClassNotFoundException cnfe){
+			cnfe.printStackTrace();
+		}
+		
+		return authLevel;
 	}
 }

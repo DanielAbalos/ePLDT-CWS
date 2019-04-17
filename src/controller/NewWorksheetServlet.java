@@ -47,6 +47,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		nwb.setCustomerType(request.getParameter("customerType"));
 		nwb.setOpportunityID(request.getParameter("opportunityID"));
 		nwb.setCreatedBy(request.getParameter("createdBy"));
+		nwb.setType(request.getParameter("type"));
 		System.out.println(nwb.getCreatedBy());
 		
 		nwb.setDate(format.format(date));
@@ -54,7 +55,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		System.out.println();
 		
 		saveNewWorksheetData(nwb.getWorksheetTitle(), nwb.getCustomerName(), nwb.getProjectDescription(), 
-				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getDate());
+				nwb.getCustomerType(), nwb.getOpportunityID(), nwb.getCreatedBy(), nwb.getType(), nwb.getDate());
 		
 		if(createNewTableForWorksheet(nwb.getWorksheetTitle())){
 			request.setAttribute("worksheetTitle", nwb.getWorksheetTitle());
@@ -67,7 +68,7 @@ public class NewWorksheetServlet extends HttpServlet {
 	}
 	
 	private static void saveNewWorksheetData(String worksheetTitle, String customerName, String projectDescription,
-			String customerType, String opportunityID, String createdBy, String date){
+			String customerType, String opportunityID, String createdBy, String type, String date){
 		
 		System.out.println(worksheetTitle);
 		
@@ -76,8 +77,8 @@ public class NewWorksheetServlet extends HttpServlet {
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets "
 					+ "(worksheet_title, customer_name, project_description, "
-					+ "customer_type, opportunityID, created_by, date, status)"
-					+ "VALUES (?,?,?,?,?,?,?,?)");
+					+ "customer_type, opportunityID, created_by, type, date, status)"
+					+ "VALUES (?,?,?,?,?,?,?,?,?)");
 			
 			pstmt.setString(1, worksheetTitle);
 			pstmt.setString(2, customerName);
@@ -85,8 +86,9 @@ public class NewWorksheetServlet extends HttpServlet {
 			pstmt.setString(4, customerType);
 			pstmt.setString(5, opportunityID);
 			pstmt.setString(6, createdBy);
-			pstmt.setString(7, date);
-			pstmt.setString(8, "Okay");
+			pstmt.setString(7, type);
+			pstmt.setString(8, date);
+			pstmt.setString(9, "Okay");
 			
 			pstmt.execute();
 

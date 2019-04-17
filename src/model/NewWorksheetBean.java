@@ -8,6 +8,7 @@ public class NewWorksheetBean {
 	String date;
 	String customerType;
 	String createdBy;
+	String type;
 	String opportunityID;
 	
 	public String getWorksheetTitle() {
@@ -45,6 +46,12 @@ public class NewWorksheetBean {
 	}
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getOpportunityID() {
 		return opportunityID;
