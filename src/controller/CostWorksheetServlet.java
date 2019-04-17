@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,10 +32,33 @@ public class CostWorksheetServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("COSTWORKSHEETSERVLET SESSION: " + request.getCookies());
-		if(request.getCookies() == null){
+		System.out.println("------------------------- COSTWORKSHEET SERVLET -------------------------");
+		
+		String userSession = "";
+		
+		Cookie[] cookies = request.getCookies();
+		int i = 0;
+		if(cookies != null){
+			for (Cookie cookie : cookies ) {
+				userSession = cookies[i].getName();
+				System.out.println("INDEX COOKIE NAME: " + cookies[i].getName());
+				System.out.println("INDEX COOKIE VALUE: " + cookies[i].getValue());
+				i++;
+			}
+			
+			if(!userSession.equals("userSession")){
+				System.out.println("NO SESSION");
+				response.sendRedirect("index.html");
+			
+			}else{
+				response.sendRedirect("index.html");
+			}
+		
+		}else{
 			response.sendRedirect("index.html");
 		}
+		
+		System.out.println("------------------------- COSTWORKSHEET SERVLET -------------------------");
 		
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.CEILING);
@@ -53,7 +77,7 @@ public class CostWorksheetServlet extends HttpServlet {
 		cwb.setUnitBuyingCosts(Double.parseDouble(df.format(Double.parseDouble(request.getParameter("price")))));
 		cwb.setPaymentOptions(request.getParameter("paymentOptions"));
 		cwb.setContractPeriod(Integer.parseInt(request.getParameter("contractPeriod")));
-		cwb.setAppliedMargin(15);
+		cwb.setAppliedMargin(Double.parseDouble(request.getParameter("appliedMargin")));
 		
 		cwb.setTotalBuyingPrice(Double.parseDouble(df.format(computeTotalBuyingPrice(cwb.getQty(), cwb.getUnitBuyingCosts()))));
 		cwb.setPeriodAmortized(Double.parseDouble(df.format(computeNoOfPeriodAmortized(cwb.getPaymentOptions(), cwb.getContractPeriod()))));
@@ -62,11 +86,12 @@ public class CostWorksheetServlet extends HttpServlet {
 		cwb.setUnitSellingPrice(Double.parseDouble(df.format(computeUnitSellingPrice(cwb.getAmortizedValue(), cwb.getQty()))));
 		cwb.setTotalSellingPrice(Double.parseDouble(df.format(computeTotalSellingPrice(cwb.getUnitSellingPrice(), cwb.getQty()))));
 		cwb.setTCV_recurring(Double.parseDouble(df.format(recurring_TCV(cwb.getPaymentOptions(), cwb.getTotalSellingPrice(), cwb.getContractPeriod(), cwb.getPeriodAmortized()))));
+		cwb.setAddedBy(request.getParameter("addedBy"));
 
 		insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
 				cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
 				cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
-				cwb.getTotalSellingPrice(), cwb.getTCV_recurring());
+				cwb.getTotalSellingPrice(), cwb.getTCV_recurring(), cwb.getAddedBy());
 		
 		//-------------------- COMPUTE TOTAL CONTRACT VALUES --------------------
 		ProfitAndLossComputations pnl = new ProfitAndLossComputations();
@@ -309,7 +334,7 @@ public class CostWorksheetServlet extends HttpServlet {
 	private static void insertToDB(String worksheetTitle, String planName, String productCategory, String provider, int qty, 
 			double unitBuyingCosts, String paymentOptions, int contractedPeriod, double appliedMargin,
 			double totalBuyingPrice, double periodAmortized, double costOfMoney, double amortizedValue,
-			double unitSellingPrice, double totalSellingPrice, double TCVrecurring){
+			double unitSellingPrice, double totalSellingPrice, double TCVrecurring, String addedBy){
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -318,7 +343,7 @@ public class CostWorksheetServlet extends HttpServlet {
 					+ "(plan_name, product_category, vendor, qty, unit_buying_costs, total_buying_price, clients_payment_options, "
 					+ "contract_period, period_amortized, cost_of_money, amortized_value, applied_margin,"
 					+ "unit_selling_price, total_selling_price, TCVRecurring)"
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			
 			pstmt.setString(1, planName);
 			pstmt.setString(2, productCategory);
@@ -335,6 +360,7 @@ public class CostWorksheetServlet extends HttpServlet {
 			pstmt.setDouble(13, unitSellingPrice);
 			pstmt.setDouble(14, totalSellingPrice);
 			pstmt.setDouble(15, TCVrecurring);
+			pstmt.setString(16, addedBy);
 			
 			pstmt.execute();
 			

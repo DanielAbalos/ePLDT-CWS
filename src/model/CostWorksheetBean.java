@@ -17,6 +17,7 @@ public class CostWorksheetBean {
 	double unitSellingPrice = 0.00;
 	double totalSellingPrice = 0.00;
 	double TCV_recurring = 0.00;
+	String addedBy;
 	
 	public double getTCV_recurring() {
 		return TCV_recurring;
@@ -104,6 +105,12 @@ public class CostWorksheetBean {
 	}
 	public double getTotalSellingPrice() {
 		return totalSellingPrice;
+	}
+	public String getAddedBy() {
+		return addedBy;
+	}
+	public void setAddedBy(String addedBy) {
+		this.addedBy = addedBy;
 	}
 	public void setTotalSellingPrice(double totalSellingPrice) {
 		this.totalSellingPrice = totalSellingPrice;

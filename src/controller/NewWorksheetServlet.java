@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,10 +29,33 @@ public class NewWorksheetServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("NEWWORKSHEETSERVLET SESSION: " + request.getSession());
-		if(request.getCookies() == null){
+		System.out.println("------------------------- NEW WORKSHEET SERVLET -------------------------");
+		
+		String userSession = "";
+		
+		Cookie[] cookies = request.getCookies();
+		int i = 0;
+		if(cookies != null){
+			for (Cookie cookie : cookies ) {
+				userSession = cookies[i].getName();
+				System.out.println("INDEX COOKIE NAME: " + cookies[i].getName());
+				System.out.println("INDEX COOKIE VALUE: " + cookies[i].getValue());
+				i++;
+			}
+			
+			if(!userSession.equals("userSession")){
+				System.out.println("NO SESSION");
+				response.sendRedirect("index.html");
+			
+			}else{
+				response.sendRedirect("index.html");
+			}
+		
+		}else{
 			response.sendRedirect("index.html");
 		}
+		
+		System.out.println("------------------------- NEW WORKSHEET SERVLET -------------------------");
 		
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
@@ -123,6 +147,7 @@ public class NewWorksheetServlet extends HttpServlet {
 					+ "Applied_margin DOUBLE, "
 					+ "Unit_selling_price DOUBLE, "
 					+ "Total_selling_price DOUBLE,"
+					+ "Added_by VARCHAR(50), "
 					+ "TCVRecurring DOUBLE);");
 			
 			pstmt.executeUpdate();

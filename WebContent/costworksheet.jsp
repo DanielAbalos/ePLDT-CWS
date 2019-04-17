@@ -24,30 +24,29 @@
 	    java.sql.Statement"
 	 %>
 	 
-	 <%! String userSession = ""; 
+	 <%! 
+		String userSessionValue = "";
+		String userSession = ""; 
 		String[] authLevel;
 	%>
 	
 	<%
-		System.out.println("------------------------- COST WORKSHEET --------------------");
-		
-		if(request.getCookies() == null){
-			response.sendRedirect("index.html");
-		}
-		
-		int i = 0;
+		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
+
 		Cookie userSessionCookies[] = request.getCookies();
-		for(Cookie cookie : userSessionCookies){
-			System.out.println("INDEX COOKIE NAME: " + userSessionCookies[i].getName());
-			System.out.println("INDEX COOKIE VALUE: " + userSessionCookies[i].getValue());
-			userSession = cookie.getValue();
+		int i = 0;
+		for (Cookie cookie : userSessionCookies ) {
+			userSession = userSessionCookies[i].getName();
+			userSessionValue = userSessionCookies[i].getValue();
+			System.out.println("COST WORKSHEET LIST: " + userSessionCookies[i].getName());
+			System.out.println("COST WORKSHEET LIST: " + userSessionCookies[i].getValue());
 			i++;
 		}
 		
-		System.out.println(userSession);
-		authLevel = userSession.split(",");
+		System.out.println(userSessionValue);
+		authLevel = userSessionValue.split(",");
 		
-		System.out.println("------------------------- COST WORKSHEET --------------------");
+		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
 		
 	%>
 	
@@ -253,6 +252,16 @@
        		<p>
        			<label style="width:120px;">Contract Period(Months)</label>
         		<input style="width:150px;" type="number" name="contractPeriod" min="1" required>&nbsp;&nbsp; &nbsp;
+       		</p>
+       		
+       		<p>
+       			<label style="width:120px;">Applied Margin</label>
+        		<input style="width:150px;" type="number" name="appliedMargin" min="1" required>&nbsp;&nbsp; &nbsp;
+       		</p>
+       		
+       		<p>
+       			<label style="width:120px;">Added by: </label>
+        		<input style="width:150px;" type="text" name="addedBy" readonly>&nbsp;&nbsp; &nbsp;
        		</p>
     			
     		<!--Save and Clear Button (Popup)-->

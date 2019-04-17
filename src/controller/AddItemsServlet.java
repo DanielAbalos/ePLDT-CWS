@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,10 +26,34 @@ public class AddItemsServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("EDITWORKSHEETSERVLET SESSION: " + request.getSession());
-		if(request.getCookies() == null){
-			response.sendRedirect("index.html");
+System.out.println("------------------------- ADD ITEMS SERVLET -------------------------");
+		
+		String userSession = "";
+		
+		Cookie[] cookies = request.getCookies();
+		int i = 0;
+		if(cookies != null){
+			for (Cookie cookie : cookies ) {
+				userSession = cookies[i].getName();
+				System.out.println("ADD ITEMS SERVLET COOKIE NAME: " + cookies[i].getName());
+				System.out.println("ADD ITEMS SERVLET VALUE: " + cookies[i].getValue());
+				i++;
+			}
+			
+			if(!userSession.equals("userSession")){
+				System.out.println("NO SESSION");
+				response.sendRedirect("index.html");
+			
+			}else{
+				response.sendRedirect("editproducts.jsp");
+			}
+		
+		}else{
+			response.sendRedirect("login.html");
 		}
+		
+		
+		System.out.println("------------------------- ADD ITEMS SERVLET -------------------------");
 		
 		AddItemsBean ai = new AddItemsBean();
 		

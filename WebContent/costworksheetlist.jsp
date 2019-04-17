@@ -12,27 +12,27 @@
   	
 	<title>ePLDT CWS</title>
 	
-	<%! String userSession = ""; 
+	<%! 
+		String userSessionValue = "";
+		String userSession = ""; 
 		String[] authLevel;
 	%>
 	
 	<%
 		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
-		if(request.getCookies() == null){
-			response.sendRedirect("index.html");
-		}
-		
-		int i = 0;
+
 		Cookie userSessionCookies[] = request.getCookies();
-		for(Cookie cookie : userSessionCookies){
-			System.out.println("INDEX COOKIE NAME: " + userSessionCookies[i].getName());
-			System.out.println("INDEX COOKIE VALUE: " + userSessionCookies[i].getValue());
-			userSession = cookie.getValue();
+		int i = 0;
+		for (Cookie cookie : userSessionCookies ) {
+			userSession = userSessionCookies[i].getName();
+			userSessionValue = userSessionCookies[i].getValue();
+			System.out.println("COST WORKSHEET LIST: " + userSessionCookies[i].getName());
+			System.out.println("COST WORKSHEET LIST: " + userSessionCookies[i].getValue());
 			i++;
 		}
 		
-		System.out.println(userSession);
-		authLevel = userSession.split(",");
+		System.out.println(userSessionValue);
+		authLevel = userSessionValue.split(",");
 		
 		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
 		
@@ -72,6 +72,9 @@
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	
 	<a href="#popup1" class="button">Create New Worksheet</a>
+	<form action = "logout.html" method = "POST">
+		<input type = "submit" value = "Logout">
+	</form>
     
     <!--Button for PopUp page-->
     <div id="popup1" class="overlay">
