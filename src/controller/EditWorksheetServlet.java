@@ -19,35 +19,6 @@ public class EditWorksheetServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("------------------------- EDIT WORKSHET SERVLET -------------------------");
-		
-		String userSession = "";
-		
-		Cookie[] cookies = request.getCookies();
-		int i = 0;
-		if(cookies != null){
-			for (Cookie cookie : cookies ) {
-				userSession = cookies[i].getName();
-				System.out.println("EDIT WORKSHET SERVLET COOKIE NAME: " + cookies[i].getName());
-				System.out.println("EDIT WORKSHET SERVLET COOKIE VALUE: " + cookies[i].getValue());
-				i++;
-			}
-			
-			if(!userSession.equals("userSession")){
-				System.out.println("NO SESSION");
-				response.sendRedirect("index.html");
-			
-			}else{
-				response.sendRedirect("index.html");
-			}
-		
-		}else{
-			response.sendRedirect("login.html");
-		}
-		
-		
-		System.out.println("------------------------- EDIT WORKSHET SERVLET -------------------------");
-		
 		String finalWorksheetTitle = request.getParameter("finalProjectName");
 		
 		request.setAttribute("worksheetTitle", finalWorksheetTitle);
