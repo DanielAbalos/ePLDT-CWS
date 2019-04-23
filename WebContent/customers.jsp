@@ -19,6 +19,40 @@
 	    java.sql.Statement"
 	%>
 	
+	<%!
+		String userSessionValue = "";
+		String userSession = "";
+		String[] authLevel;
+	%>
+
+	<%
+		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
+
+		Cookie userSessionCookies[] = request.getCookies();
+		int i = 0;
+		for (Cookie cookie : userSessionCookies ) {
+			userSession = userSessionCookies[i].getName();
+			userSessionValue = userSessionCookies[i].getValue();
+			System.out.println("COST WORKSHEET LIST: " + userSessionCookies[i].getName());
+			System.out.println("COST WORKSHEET LIST: " + userSessionCookies[i].getValue());
+			i++;
+		}
+		
+		if(!userSession.equals("userSession")){
+			System.out.println("NO SESSION");
+			response.sendRedirect("login.html");
+		
+		}else{
+			response.sendRedirect("costworksheetlist.jsp");
+		}
+
+		System.out.println(userSessionValue);
+		authLevel = userSessionValue.split(",");
+
+		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
+
+	%>
+	
 	<br>
   
 	<!--Navigation Bar-->
