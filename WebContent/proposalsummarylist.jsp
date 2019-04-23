@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
+
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<link rel="icon" href="images/e.png">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel = "stylesheet" href = "css/cws.css"/>
-	
+
 	<title>Proposal Summary List</title>
 </head>
 
@@ -20,6 +20,7 @@
 		java.sql.SQLException,
 		java.sql.Statement"
 	%>
+	<br>
 
 	<nav id = "nav">
     	<ul>
@@ -27,11 +28,15 @@
       		<li> <a href ="proposalsummarylist.jsp"><font size="3"> Proposal Summary</font> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       		<li> <a href ="editproducts.jsp"><font size="3"> Product Catalog</font> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       		<li> <a href = "customers.jsp"><font size = "3"> Customer List</font></a>
+      		<li style="float:right;"><form action = "logout.html" method = "POST">
+					<input type = "submit" value = "Logout">
+				</form>
+			</li> 
       	</ul>
 	</nav>
 
 	<br>
-	
+
 	<form action = "proposalsummary.jsp" method = "POST" id = "sendEditForm">
 		<section>
 			<table cellpadding="0" cellspacing="0" border="0">
@@ -49,8 +54,8 @@
 	        			<th>Current Status</th>
       				</tr>
       			</thead>
-				
-				
+
+
 				<tbody class="tbl-content">
 					<%
 						try{
@@ -58,11 +63,11 @@
 						    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 						    Statement stmt = conn.createStatement();
 						    ResultSet rs = stmt.executeQuery("SELECT * FROM `worksheets`");
-						
+
 						    while(rs.next()){
 						    	String projectName = rs.getString("worksheet_title");
 					%>
-				
+
 					<tr>
 						<td align = "center"><i class="fa fa-edit"style="font-size:25px" onclick = "getProjectName('<%= projectName.toString() %>')"></i></td>
 	      				<td><%= rs.getString("ID") %></td>
@@ -75,7 +80,7 @@
 	      				<td><%= rs.getString("date") %></td>
 	      				<td><%= rs.getString("status") %></td>
 	    			</tr>
-					
+
 					<%
 							}
 						}catch(SQLException sqle){
@@ -83,13 +88,13 @@
 						 	sqle.printStackTrace();
 						}
 					%>
-				</tbody>		
+				</tbody>
   			</table>
 		</section>
-			
+
 			<input type = "hidden" id = "finalProjectName" name = "finalProjectName">
 	</form>
-	
+
 </body>
 
 <script>
