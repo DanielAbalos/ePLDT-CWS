@@ -31,10 +31,10 @@
 			i++;
 		}
 		
-		if(!userSession.equals("userSession")){
+		/* if(!userSession.equals("userSession")){
 			System.out.println("NO SESSION");
 			response.sendRedirect("login.html");
-		}
+		} */
 
 		System.out.println(userSessionValue);
 		authLevel = userSessionValue.split(",");

@@ -42,8 +42,6 @@
 			System.out.println("NO SESSION");
 			response.sendRedirect("login.html");
 		
-		}else{
-			response.sendRedirect("costworksheetlist.jsp");
 		}
 
 		System.out.println(userSessionValue);

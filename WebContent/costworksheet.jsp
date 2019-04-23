@@ -46,9 +46,6 @@
 		if(!userSession.equals("userSession")){
 			System.out.println("NO SESSION");
 			response.sendRedirect("login.html");
-		
-		}else{
-			response.sendRedirect("costworksheetlist.jsp");
 		}
 
 		System.out.println(userSessionValue);
@@ -294,7 +291,7 @@
 
        		<p>
        			<label style="margin-left:20px; width:120px;">Added by: </label>
-        		<input style="margin-left:50px; width:150px;" type="text" name="addedBy" readonly>&nbsp;&nbsp; &nbsp;
+        		<input style="margin-left:50px; width:150px;" type="text" name="addedBy" value = "<%= authLevel[0]  %>" readonly>&nbsp;&nbsp; &nbsp;
        		</p>
 
     		<!--Save and Clear Button (Popup)-->

@@ -40,13 +40,11 @@
 			i++;
 		}
 		
-		if(!userSession.equals("userSession")){
+		/* if(!userSession.equals("userSession")){
 			System.out.println("NO SESSION");
 			response.sendRedirect("login.html");
 		
-		}else{
-			response.sendRedirect("costworksheetlist.jsp");
-		}
+		} */
 
 		System.out.println(userSessionValue);
 		authLevel = userSessionValue.split(",");

@@ -48,14 +48,14 @@ public class CostWorksheetServlet extends HttpServlet {
 			
 			if(!userSession.equals("userSession")){
 				System.out.println("NO SESSION");
-				response.sendRedirect("index.html");
+				//response.sendRedirect("index.html");
 			
 			}else{
-				response.sendRedirect("index.html");
+				//response.sendRedirect("index.html");
 			}
 		
 		}else{
-			response.sendRedirect("index.html");
+			//response.sendRedirect("index.html");
 		}
 		
 		System.out.println("------------------------- COSTWORKSHEET SERVLET -------------------------");
@@ -88,10 +88,10 @@ public class CostWorksheetServlet extends HttpServlet {
 		cwb.setTCV_recurring(Double.parseDouble(df.format(recurring_TCV(cwb.getPaymentOptions(), cwb.getTotalSellingPrice(), cwb.getContractPeriod(), cwb.getPeriodAmortized()))));
 		cwb.setAddedBy(request.getParameter("addedBy"));
 
-		insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), cwb.getUnitBuyingCosts(),
-				cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
-				cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),
-				cwb.getTotalSellingPrice(), cwb.getTCV_recurring(), cwb.getAddedBy());
+		insertToDB(worksheetTitle, cwb.getPlanName(), cwb.getProductCategory(), cwb.getProvider(), cwb.getQty(), 
+				cwb.getUnitBuyingCosts(),cwb.getPaymentOptions(), cwb.getContractPeriod(), cwb.getAppliedMargin(), cwb.getTotalBuyingPrice(),
+				cwb.getPeriodAmortized(), cwb.getCostOfMoney(), cwb.getAmortizedValue(), cwb.getUnitSellingPrice(),cwb.getTotalSellingPrice(), 
+				cwb.getTCV_recurring(), cwb.getAddedBy());
 		
 		//-------------------- COMPUTE TOTAL CONTRACT VALUES --------------------
 		ProfitAndLossComputations pnl = new ProfitAndLossComputations();
@@ -340,10 +340,11 @@ public class CostWorksheetServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO " + worksheetTitle
-					+ "(plan_name, product_category, vendor, qty, unit_buying_costs, total_buying_price, clients_payment_options, "
-					+ "contract_period, period_amortized, cost_of_money, amortized_value, applied_margin,"
-					+ "unit_selling_price, total_selling_price, TCVRecurring)"
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "(plan_name, product_category, vendor, qty, unit_buying_costs, "
+					+ "total_buying_price, clients_payment_options, contract_period, period_amortized, cost_of_money, "
+					+ "amortized_value, applied_margin, unit_selling_price, total_selling_price, "
+					+ "Added_by, TCVRecurring)"
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			
 			pstmt.setString(1, planName);
 			pstmt.setString(2, productCategory);
@@ -359,8 +360,8 @@ public class CostWorksheetServlet extends HttpServlet {
 			pstmt.setDouble(12, 0.15);
 			pstmt.setDouble(13, unitSellingPrice);
 			pstmt.setDouble(14, totalSellingPrice);
-			pstmt.setDouble(15, TCVrecurring);
-			pstmt.setString(16, addedBy);
+			pstmt.setString(15, addedBy);
+			pstmt.setDouble(16, TCVrecurring);
 			
 			pstmt.execute();
 			

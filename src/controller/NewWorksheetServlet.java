@@ -84,9 +84,6 @@ public class NewWorksheetServlet extends HttpServlet {
 		if(createNewTableForWorksheet(nwb.getWorksheetTitle())){
 			request.setAttribute("worksheetTitle", nwb.getWorksheetTitle());
 			request.getRequestDispatcher("costworksheet.jsp").forward(request, response);
-		
-		}else{
-			response.sendRedirect("loginerror.html");
 		}
 
 	}
