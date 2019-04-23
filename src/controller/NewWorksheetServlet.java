@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.PreparedStatement;
 
 import model.NewWorksheetBean;
 
@@ -99,7 +99,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
-			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement("INSERT INTO worksheets "
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO worksheets "
 					+ "(worksheet_title, customer_name, project_description, "
 					+ "customer_type, opportunityID, created_by, type, date, status)"
 					+ "VALUES (?,?,?,?,?,?,?,?,?)");

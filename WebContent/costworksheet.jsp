@@ -54,7 +54,8 @@
 		<ul>
       		<li> <a href ="costworksheetlist.jsp"><font size="3"> ePLDT CWS </font> </a></li>&nbsp;&nbsp; &nbsp;&nbsp;
         	<li> <a href ="proposalsummarylist.jsp"><font size="3"> Proposal Summary</font> </a></li>&nbsp;&nbsp; &nbsp;&nbsp;
-        	<li> <a href ="editproducts.jsp"><font size="3"> Product Catalog</font> </a></li>
+        	<li> <a href ="editproducts.jsp"><font size="3"> Product Catalog</font> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      		<li> <a href = "customers.jsp"><font size = "3"> Customer List</font></a>
       	</ul>
     </nav>
     

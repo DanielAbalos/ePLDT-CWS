@@ -8,7 +8,7 @@
     <link rel = "stylesheet" href = "css/cws.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
-    <title>Product Catalogue</title>
+    <title>Customer List</title>
 </head>
 
 <body style="background-color:whitesmoke;">
@@ -36,34 +36,30 @@
     
     <br><br>
     
-    <a href="#popup1" class="pop button">Add Product</a>
+    <a href="#popup1" class="pop button">Add Customer</a>
     
     <!--Button for PopUp page-->
     <div id="popup1" class="overlay">
     	<div class="popup">
-			<form action="additems.html" method="POST">
+			<form action="addCustomer.html" method="POST">
     			<h2>New Project</h2>
     			<a class="close" href="#">&times;</a>
     			
     			<p>
-    				<label style="width:120px;">Plan Name:</label>
-          			<input style="width:150px;" type="text" name="planName" required>
+    				<label style="width:120px;">Account Name:</label>
+          			<input style="width:150px;" type="text" name="accountName" required>
     			</p>
         
         		<p>
-          			<label style="width:120px;">Product Name:</label>
-          			<input style="width:150px;" type="text" name="productName" required>&nbsp;&nbsp; &nbsp;
-         	
-         			<label style="width:120px;">Product Category:</label>
-          			<input style="width:150px;" type="text" name="productCategory" required>
+          			<label style="width:120px;">Category:</label>
+          			<input style="width:150px;" type="text" name="category" required>&nbsp;&nbsp;&nbsp;
         		</p>
         
         		<p>
-         			<label style="width:120px;">Vendor:</label>
-         			<input style="width:150px;" type="text" name="vendor" value = "ePLDT" readonly>&nbsp;&nbsp; &nbsp;
-          			
-          			<label style="width:120px;">SRP:</label>
-          			<input style="width:150px;" type="number" name="srp" min = "1">
+         			<label style="width:120px;">Account Status:</label>
+         			<select name = "accountStatus">
+         				<option value = "ACTIVE">Active</option>
+         			</select>
         		</p>
         
         		<!--Save and Clear Button (Popup)-->
@@ -83,13 +79,9 @@
 		<table cellpadding="0" cellspacing="0" border="0">
     		<thead class="tbl-header">
         		<tr>
-            		<th style="color: black;">Edit</th>
-            		<th style="color: black;">Product ID</th>
-            		<th style="color: black;">Plan Name</th>
-            		<th style="color: black;">Product Name</th>
-            		<th style="color: black;">Product Catgory</th>
-           		 	<th style="color: black;">Vendor</th>
-           		 	<th style="color: black;">SRP</th>
+            		<th style="color: black;">Account Name</th>
+            		<th style="color: black;">Category</th>
+            		<th style="color: black;">Status</th>
             	</tr>
 			</thead>   
 			<%
@@ -97,20 +89,16 @@
 					Class.forName("com.mysql.jdbc.Driver");
 			    	Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
 			    	Statement stmt = conn.createStatement();
-			    	ResultSet rs = stmt.executeQuery("SELECT * FROM `products`");
+			    	ResultSet rs = stmt.executeQuery("SELECT * FROM `customers`");
 				
 			    	while(rs.next()){
 			%>
     		
     		<tbody class="tbl-content">
       			<tr>
-					<td align = "center"><i class="fa fa-edit"style="font-size:25px"></i></td>
-					<td align = "center"><%= rs.getString("ID") %></td>
-					<td><%= rs.getString("plan_name") %></td>
-					<td><%= rs.getString("product_name") %></td>
-					<td><%= rs.getString("product_category") %></td>
-					<td><%= rs.getString("vendor") %></td>
-					<td><%= rs.getString("srp") %></td>
+					<td><%= rs.getString("account_name") %></td>
+					<td><%= rs.getString("customer_category") %></td>
+					<td><%= rs.getString("account_status") %></td>
 				</tr>
 			<%
 					}

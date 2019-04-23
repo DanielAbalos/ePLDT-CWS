@@ -44,13 +44,13 @@ public class LoginProcessServlet extends HttpServlet {
 			userSessionCookie.setMaxAge(60 * 60 * 8);
 			response.addCookie(userSessionCookie);
 			
-			Cookie[] cookies = request.getCookies();
+			/*Cookie[] cookies = request.getCookies();
 			int i = 0;
 			for (Cookie cookie : cookies ) {
 				System.out.println("INDEX COOKIE NAME: " + cookies[i].getName());
 				System.out.println("INDEX COOKIE VALUE: " + cookies[i].getValue());
 				i++;
-			}
+			}*/
 			
 			System.out.println("------------------------- LOGIN PROCESS SERVLET -------------------------");
 
