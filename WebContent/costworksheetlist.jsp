@@ -1,23 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
+
 <html>
 <head>
 	<meta charset="utf-8">
   	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	
+
 	<link rel ="icon" href="images/e.png">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   	<link rel = "stylesheet" href = "css/cws.css"/>
-  	
+
 	<title>ePLDT CWS</title>
-	
-	<%! 
+
+	<%!
 		String userSessionValue = "";
-		String userSession = ""; 
+		String userSession = "";
 		String[] authLevel;
 	%>
-	
+
 	<%
 		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
 
@@ -30,14 +30,14 @@
 			System.out.println("COST WORKSHEET LIST: " + userSessionCookies[i].getValue());
 			i++;
 		}
-		
+
 		System.out.println(userSessionValue);
 		authLevel = userSessionValue.split(",");
-		
+
 		System.out.println("------------------------- COST WORKSHEET LIST --------------------");
-		
+
 	%>
-	
+
 </head>
 
 <body style="background-color:whitesmoke;">
@@ -49,84 +49,84 @@
 	    java.sql.SQLException,
 	    java.sql.Statement"
 	%>
-	
+
 	<%
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	    Date date = new Date();
 	%>
-	
+
 	<h1 align = "center"> WELCOME BACK, <%= authLevel[0] %></h1>
-	
+
     <!--Navigation Bar-->
     <br>
-    
+
     <nav id = "nav">
 		<ul>
-			<li> <a href ="costworksheetlist.jsp"><font size="3"> ePLDT CWS </font></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+			<li style="margin-left:-25px;"> <a href ="costworksheetlist.jsp"><font size="3"> ePLDT CWS </font></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
         	<li> <a href ="proposalsummarylist.jsp"><font size="3"> Proposal Summary</font> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
        		<li> <a href ="editproducts.jsp"><font size="3"> Product Catalog</font> </a></li>
+			<li style="float:right;"> <form action = "logout.html" method = "POST">
+				 <input type = "submit" value = "Logout"></form></li>      	
       	</ul>
 	</nav>
-	
+
 	<!--Button for CreateNewWorksheet-->
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<a href="#popup1" class="button">Create New Worksheet</a>
-	<form action = "logout.html" method = "POST">
-		<input type = "submit" value = "Logout">
-	</form>
-    
+
+	<a href="#popup1" style="margin-left:15px;"class="button">Create New Worksheet</a>
+
+
     <!--Button for PopUp page-->
     <div id="popup1" class="overlay">
 	    <div class="popup">
-		
+
 			<form action="worksheets.html" method="POST">
 				<h2>New Project</h2>
 				<a class="close" href="#">&times;</a>
-		    	
+
 		    	<p>
-		        	<label style="width:120px;">Worksheet Title:</label>
-		        	<input style="width:150px;" type="text" name="worksheetTitle" required>
+		        	<label style="margin-left:20px; width:120px;">Worksheet Title:</label>
+		        	<input style="width:160px;" type="text" name="worksheetTitle" required>
 				</p>
-		      
+
 		      	<p>
-		        	<label style="width:120px;">Customer Name:</label>
-		        	<input style="width:150px;" type="text" name="customerName" required>&nbsp;&nbsp; &nbsp;
-		        
-		        	<label style="width:120px;">Customer Type:</label>
+		        	<label style="margin-left:20px; width:120px;">Customer Name:</label>
+		        	<input style="width:160px;" type="text" name="customerName" required>&nbsp;&nbsp; &nbsp;
+
+		        	<label style="margin-left:100px; width:120px;">Customer Type:</label>
 		        	<select name = "customerType">
 		        		<option>Third Party - Enterprise</option>
 		        		<option>Third Party - Government</option>
 		        		<option>Subsidiary and Affiliates</option>
 		        	</select>
 		     	</p>
-		     
+
 		     	<p>
-		        	<label style="width:120px;">Project Description:</label>
-		        	<textarea rows = 5 cols = 50 name = "projectDescription"></textarea>
-		        
-		        	<label style="width:120px;">Created By:</label>
-		        	<input style="width:150px;" type="text" name="createdBy" value = "<%= authLevel[0] %>" readonly>
+		        	<label style="margin-left:20px; width:120px;">Project Description:<textarea style="margin-left:125px;" rows = 5 cols = 50 name = "projectDescription"></textarea></label>
+
 		     	</p>
-		     	
-		     	<p>		        
-		        	<label style="width:120px;">Type:</label>
+
+          <p>
+              <label style="margin-left:20px; width:120px;">Created By:</label>
+              <input style="width:150px;" type="text" name="createdBy" value = "<%= authLevel[0] %>" readonly>
+
+		        	<label style="margin-left:135px; width:120px;">Type:</label>
 		        	<input style="width:150px;" type="text" name="type" value = "<%= authLevel[1] %>" readonly>
 		     	</p>
-		     	
+
 		     	<p>
-		        	<label style="width:120px;">Opportunity ID:</label>
+		        	<label style="margin-left:20px; width:120px;">Opportunity ID:</label>
 		        	<input style="width:150px;" type="text" name="opportunityID" required>&nbsp;&nbsp; &nbsp;
-		        
-		        	<label style="width:120px;">Date:</label>
-		        	<input style="width:150px;" type="text" name="date" readonly value=<%= format.format(date) %>>
+
+		        	<label style="margin-left:120px; width:120px;">Date:</label>
+		        	<input style="width:150px;" type="text" name="date" readonly value=<%= format.format(date) %>">
 		    	</p>
-		  
+
 		  		<!--Save and Clear Button (Popup)-->
-		    	
+
 		    	<br>
 		      	<div style="text-align: right;">
-		        	<input type = "reset" value = "Clear" class="clear">
+		        	<input style ="margin-top: 25px;"type = "reset" value = "Clear" class="clear">
 		        	<input type = "submit" value = "Save" class="save">
 		      	</div>
 			</form>
@@ -134,7 +134,7 @@
 	</div>
 
     <hr>
-    
+
     <div class="page" style="overflow-x:auto;">
     	<form action = "editcostworksheet.html" id = "sendEditForm" method = "POST">
     		<table class="layout display responsive-table">
@@ -152,9 +152,9 @@
             			<th>Current Status</th>
             		</tr>
     			</thead>
-    
+
     			<tbody>
-    			
+
     				<%
     					try{
     						Class.forName("com.mysql.jdbc.Driver");
@@ -191,10 +191,10 @@
 
 				</tbody>
 			</table>
-			
+
 			<input type = "hidden" id = "finalProjectName" name = "finalProjectName">
-			
-    	</form>	
+
+    	</form>
 	</div>
 
 </body>
@@ -208,5 +208,5 @@
     		form.submit();
   		};
 	</script>
-	
+
 </html>
