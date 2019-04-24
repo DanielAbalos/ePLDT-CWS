@@ -19,6 +19,21 @@
 		java.sql.SQLException,
 		java.sql.Statement"
 	%>
+	
+	<nav id = "nav">
+    	<ul>
+      		<li> <a href ="costworksheetlist.jsp"><font size="3"> ePLDT CWS </font> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      		<li> <a href ="proposalsummarylist.jsp"><font size="3"> Proposal Summary</font> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      		<li> <a href ="editproducts.jsp"><font size="3"> Product Catalog</font> </a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      		<li> <a href = "customers.jsp"><font size = "3"> Customer List</font></a>
+      		<li style="float:right;"><form action = "logout.html" method = "POST">
+					<input type = "submit" value = "Logout">
+				</form>
+			</li> 
+      	</ul>
+	</nav>
+	
+	<br><br>
 
 	<section>
 		<table cellpadding="0" cellspacing="0" border="0">

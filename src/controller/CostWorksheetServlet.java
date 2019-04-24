@@ -74,7 +74,7 @@ public class CostWorksheetServlet extends HttpServlet {
 		cwb.setProductCategory(fetchProductCategory(cwb.getPlanName()));
 		cwb.setProvider(fetchVendor(cwb.getPlanName()));
 		cwb.setQty(Integer.parseInt(request.getParameter("qty")));
-		cwb.setUnitBuyingCosts(Double.parseDouble(df.format(Double.parseDouble(request.getParameter("price")))));
+		cwb.setUnitBuyingCosts(Double.parseDouble(df.format(Double.parseDouble(request.getParameter("discountedPrice")))));
 		cwb.setPaymentOptions(request.getParameter("paymentOptions"));
 		cwb.setContractPeriod(Integer.parseInt(request.getParameter("contractPeriod")));
 		cwb.setAppliedMargin(Double.parseDouble(request.getParameter("appliedMargin")));

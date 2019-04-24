@@ -237,28 +237,40 @@
 
        		<p>
        			<label style="margin-left:20px; width:120px;">Price: </label>
-       			<input style="margin-left:50px;" type = "number" name = "price" min = 1>
+       			<input style="margin-left:50px;" type = "number" id = "price" name = "price" min = 1 value = "100.00">
        		</p>
        		
        		<p> 
        			<label style="margin-left:20px; width:120px;">Discount Level </label>
-				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel">
-				<label style="margin-left:-110px; width:120px;">RM Level (5%) </label>
-				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel">
-				<label style="margin-left:-110px; width:120px;">BH Level (7.5%) </label>
-		
-			</p>
-			<p>
-				<input style="margin-left:85px;" type="radio" id="dscLevel" name="dscLevel">
-				<label style="margin-left:-110px; width:120px;">CRM Head Level (10%) </label>
-				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel">
-				<label style="margin-left:-120px; width:120px;">VYT/ All Level (12.5%) </label>
-			</p>
-			<p>
-				<input style="margin-left:85px;" type="radio" id="dscLevel" name="dscLevel">
-				<label style="margin-left:-110px; width:120px;"> JIH Level (15%) </label>
 				
+				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 1>
+				<label style="margin-left:-110px; width:120px;">None</label>
+				
+				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 0.05>
+				<label style="margin-left:-110px; width:120px;">RM Level (5%) </label>
 			</p>
+			
+			<p>
+				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 0.075>
+				<label style="margin-left:-110px; width:120px;">BH Level (7.5%) </label>
+			
+				<input style="margin-left:85px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 0.10> 
+				<label style="margin-left:-110px; width:120px;">CRM Head Level (10%) </label>
+			</p>
+			
+			<p>
+				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 0.125>
+				<label style="margin-left:-120px; width:120px;">VYT/ All Level (12.5%) </label>
+				
+				<input style="margin-left:85px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 0.15>
+				<label style="margin-left:-110px; width:120px;"> JIH Level (15%) </label>
+			</p>
+			
+			<p>
+				<label style="margin-left:20px; width:120px;">Discounted price: </label>
+				<input style="margin-left:50px; width:150px;" type="text" name="discountedPrice" id = "discountedPrice" min="1" value = 0.0 required readonly>&nbsp;&nbsp; &nbsp;
+			</p>
+       		
        		<p>
           		<label style="margin-left:20px; width:120px;">Quantity:</label>
           		<input style="margin-left:50px; width:150px;" type="number" name="qty" min="1" required>&nbsp;&nbsp; &nbsp;
@@ -410,4 +422,12 @@
 </script>
 
 <script src="cwstable.js"></script>
+
+<script>
+	
+	function applyDiscount(dscLevel){
+		document.getElementById("discountedPrice").value = document.getElementById("price").value - (document.getElementById("price").value * dscLevel.value);
+	}
+
+</script>
 </html>
