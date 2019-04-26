@@ -7,11 +7,8 @@ public class ProfitAndLossSummaryBean {
 	double TCVnonRecurring = 0.00;
 	double recurring = 0.00;
 	double nonRecurring = 0.00;
-	
-	double costOfManagedITservices = 0.00;
-	double costOfDataCenter = 0.00;
-	double costOfCloud = 0.00;
-	double costOfCyberSecurity = 0.00;
+	double QtyRecurring = 0.00;
+	double QtyNonRecurring = 0.00;
 	
 	public double getRevenues() {
 		return revenues;
@@ -43,29 +40,18 @@ public class ProfitAndLossSummaryBean {
 	public void setNonRecurring(double nonRecurring) {
 		this.nonRecurring = nonRecurring;
 	}
-	public double getCostOfManagedITservices() {
-		return costOfManagedITservices;
+	public double getQtyRecurring() {
+		return QtyRecurring;
 	}
-	public void setCostOfManagedITservices(double costOfManagedITservices) {
-		this.costOfManagedITservices = costOfManagedITservices;
+	public void setQtyRecurring(double qtyRecurring) {
+		QtyRecurring = qtyRecurring;
 	}
-	public double getCostOfDataCenter() {
-		return costOfDataCenter;
+	public double getQtyNonRecurring() {
+		return QtyNonRecurring;
 	}
-	public void setCostOfDataCenter(double costOfDataCenter) {
-		this.costOfDataCenter = costOfDataCenter;
+	public void setQtyNonRecurring(double qtyNonRecurring) {
+		QtyNonRecurring = qtyNonRecurring;
 	}
-	public double getCostOfCloud() {
-		return costOfCloud;
-	}
-	public void setCostOfCloud(double costOfCloud) {
-		this.costOfCloud = costOfCloud;
-	}
-	public double getCostOfCyberSecurity() {
-		return costOfCyberSecurity;
-	}
-	public void setCostOfCyberSecurity(double costOfCyberSecurity) {
-		this.costOfCyberSecurity = costOfCyberSecurity;
-	}
+	
 
 }

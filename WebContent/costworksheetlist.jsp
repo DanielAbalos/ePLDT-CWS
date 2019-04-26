@@ -99,7 +99,25 @@
 
 		      	<p>
 		        	<label style="margin-left:20px; width:120px;">Customer Name:</label>
-		        	<input style="width:160px;" type="text" name="customerName" required>&nbsp;&nbsp; &nbsp;
+		        	<select style="margin-left:50px;"name = "customerName">
+				<%
+					try{
+				    	Class.forName("com.mysql.jdbc.Driver");
+						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
+					    Statement stmt = conn.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT * FROM `customers`");
+
+						while(rs.next()){
+				%>
+					<option value =<%=rs.getString("account_name")%>><%=rs.getString("account_name") %></option>
+				<%
+						}
+					}catch(SQLException sqle){
+					    System.out.println("SQLException in costworksheet.jsp");
+						sqle.printStackTrace();
+					}
+				%>
+       			</select>
 
 		        	<label style="margin-left:100px; width:120px;">Customer Type:</label>
 		        	<select name = "customerType">
@@ -168,7 +186,7 @@
     						Class.forName("com.mysql.jdbc.Driver");
     						Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cws_db","root","");
     						Statement stmt = conn.createStatement();
-    						ResultSet rs = stmt.executeQuery("SELECT * FROM `worksheets` WHERE type = '" + authLevel[1] + "'");
+    						ResultSet rs = stmt.executeQuery("SELECT * FROM `worksheets`");
 
     						while(rs.next()){
     				%>

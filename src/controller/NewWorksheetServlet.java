@@ -31,7 +31,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		
 		System.out.println("------------------------- NEW WORKSHEET SERVLET -------------------------");
 		
-		String userSession = "";
+		/*String userSession = "";
 		
 		Cookie[] cookies = request.getCookies();
 		int i = 0;
@@ -53,7 +53,7 @@ public class NewWorksheetServlet extends HttpServlet {
 		
 		}else{
 			response.sendRedirect("index.html");
-		}
+		}*/
 		
 		System.out.println("------------------------- NEW WORKSHEET SERVLET -------------------------");
 		

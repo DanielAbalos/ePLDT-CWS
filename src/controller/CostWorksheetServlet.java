@@ -102,10 +102,13 @@ public class CostWorksheetServlet extends HttpServlet {
 		pnlb.setNonRecurring(Double.parseDouble(df.format(pnl.computeNonRecurring(worksheetTitle))));
 		pnlb.setTCVrecurring(Double.parseDouble(df.format(pnl.TCVRecurring(worksheetTitle))));
 		pnlb.setTCVnonRecurring(Double.parseDouble(df.format(pnl.computeNonRecurring(worksheetTitle))));
-		pnlb.setCostOfManagedITservices(Double.parseDouble(df.format(pnl.computeManagedITServicesCost(worksheetTitle))));
+		//pnlb.setQtyRecurring(Double.parseDouble(df.format(pnl.recurringQtyPercentage(worksheetTitle))));
+		//pnlb.setQtyNonRecurring(Double.parseDouble(df.format(pnl.NonrecurringQtyPercentage(worksheetTitle))));
+		
+		/*pnlb.setCostOfManagedITservices(Double.parseDouble(df.format(pnl.computeManagedITServicesCost(worksheetTitle))));
 		pnlb.setCostOfDataCenter(Double.parseDouble(df.format(pnl.computeDataCenterCost(worksheetTitle))));
 		pnlb.setCostOfCloud(Double.parseDouble(df.format(pnl.computeCloudCost(worksheetTitle))));
-		pnlb.setCostOfCyberSecurity(Double.parseDouble(df.format(pnl.computeCyberSecCost(worksheetTitle))));
+		pnlb.setCostOfCyberSecurity(Double.parseDouble(df.format(pnl.computeCyberSecCost(worksheetTitle))));*/
 		
 		/*System.out.println("PLAN NAME: " + cwb.getPlanName());
 		System.out.println("PRODUCT CATEGORY: " + cwb.getProductCategory());

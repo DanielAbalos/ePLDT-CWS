@@ -1,3 +1,4 @@
+<%@page import="model.ProfitAndLossSummaryBean"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="org.apache.catalina.connector.Request"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -121,6 +122,10 @@
    	<br>
 
    	<h3 align = "center">Profit And Loss Summary</h3>
+   	
+   	<%
+   		Object pnlComp = request.getAttribute("pnlComp");
+   	%>
 
    	<section>
    		<table>
@@ -160,29 +165,29 @@
    			</tr>
 
    			<tr>
-   				<th>Managed IT Services</th>
-   				<td>${pnlComp.costOfManagedITservices }</td>
+   				<th>Cost of Hardware/Software/Services</th>
    				<td>...</td>
-   				<td>...</td>
-   			</tr>
-
-   			<tr>
-   				<th>Data Center</th>
-   				<td>${pnlComp.costOfDataCenter }</td>
    				<td>...</td>
    				<td>...</td>
    			</tr>
 
    			<tr>
-   				<th>Cloud</th>
-   				<td>${pnlComp.costOfCloud }</td>
+   				<th>ePLDT Product and Services</th>
+   				<td>...</td>
    				<td>...</td>
    				<td>...</td>
    			</tr>
 
    			<tr>
-   				<th>Cyber Security</th>
-   				<td>${pnlComp.costOfCyberSecurity }</td>
+   				<th>ePLDT Professional Services</th>
+   				<td>...</td>
+   				<td>...</td>
+   				<td>...</td>
+   			</tr>
+
+   			<tr>
+   				<th>Excess of 12% Actual Input Vat Over 7% Standard Input Vat on Sales to Government</th>
+   				<td>...</td>
    				<td>...</td>
    				<td>...</td>
    			</tr>
@@ -237,13 +242,13 @@
 
        		<p>
        			<label style="margin-left:20px; width:120px;">Price: </label>
-       			<input style="margin-left:50px;" type = "number" id = "price" name = "price" min = 1 value = "100.00">
+       			<input style="margin-left:50px;" type = "number" id = "price" name = "price" min = 1 value = "100.00" readonly>
        		</p>
        		
        		<p> 
        			<label style="margin-left:20px; width:120px;">Discount Level </label>
 				
-				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 1>
+				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value =0>
 				<label style="margin-left:-110px; width:120px;">None</label>
 				
 				<input style="margin-left:-60px;" type="radio" id="dscLevel" name="dscLevel" onchange = "applyDiscount(this)" value = 0.05>
@@ -338,6 +343,7 @@
 		            <th>Applied Margin</th>
 		            <th>Unit Selling Price</th>
 		            <th>Total Selling Price</th>
+		            <th>Added By</th>
           		</tr>
         	</thead>
 
@@ -367,6 +373,7 @@
 		    		<td><%= rs.getString("applied_margin") %></td>
 		    		<td><%= rs.getString("unit_selling_price") %></td>
 		    		<td><%= rs.getString("total_selling_price") %></td>
+		    		<td><%= rs.getString("Added_by") %></td>
 		        </tr>
 
 				<%

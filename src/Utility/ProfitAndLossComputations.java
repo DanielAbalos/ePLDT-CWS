@@ -15,11 +15,12 @@ public class ProfitAndLossComputations {
 		System.out.println("TCV Non-Recurring: " + computeNonRecurring(worksheetTitle));
 		System.out.println("Recurring: " + computeRecurring(worksheetTitle));
 		System.out.println("Non-recurring: " + computeNonRecurring(worksheetTitle));
+		System.out.println("QTY / Percentage: " + recurringQtyPercentage(worksheetTitle));
 		System.out.println("--------------------------------------------------");
-		System.out.println("Cost Of Managed IT Services: " + computeManagedITServicesCost(worksheetTitle));
+		/*System.out.println("Cost Of Managed IT Services: " + computeManagedITServicesCost(worksheetTitle));
 		System.out.println("Cost Of Data Center: " + computeDataCenterCost(worksheetTitle));
 		System.out.println("Cost Of Cloud: " + computeCloudCost(worksheetTitle));
-		System.out.println("Cost Of Cyber Security: " + computeCyberSecCost(worksheetTitle));
+		System.out.println("Cost Of Cyber Security: " + computeCyberSecCost(worksheetTitle));*/
 	}
 	
 	public double computeRevenues(String worksheetTitle){
@@ -105,7 +106,11 @@ public class ProfitAndLossComputations {
 		return TCVRecurring(worksheetTitle) / computeRecurring(worksheetTitle);
 	}
 	
-	public double computeManagedITServicesCost(String worksheetTitle){
+	public double NonrecurringQtyPercentage(String worksheetTitle){
+		return computeNonRecurring(worksheetTitle) / computeRecurring(worksheetTitle);
+	}
+	
+	/*public double computeManagedITServicesCost(String worksheetTitle){
 		double managedITservices = 0.0;
 		
 		try {
@@ -203,6 +208,6 @@ public class ProfitAndLossComputations {
 		}
 		
 		return cyberSec;
-	}
+	}*/
 
 }
